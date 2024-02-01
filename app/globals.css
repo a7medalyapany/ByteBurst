@@ -56,24 +56,28 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Inter", sans-serif;
   }
 }
 
 @layer utilities {
-.flex-center {
-@apply flex justify-center items-center;
-}
-.flex-between {
-@apply flex justify-between items-center;
-}
-.flex-start {
-@apply flex justify-start items-center;
-}
-.markdown {
-@apply max-w-full prose dark:prose-p:text-foreground dark:pros
-}
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+  
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+  
+  .flex-start {
+    @apply flex justify-start items-center;
+  }
+  
+  .markdown {
+    @apply max-w-full prose dark:prose-p:text-foreground dark:prose;
+  }
 
-.no-focus {
-@apply focus-visible:ring-0 focus-visible:ring-transparent focus
-}
+  .no-focus {
+    @apply focus-visible:ring-0 focus-visible:ring-transparent;
+  }
 }

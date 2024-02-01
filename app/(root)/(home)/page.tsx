@@ -1,14 +1,9 @@
 import { FC } from "react";
-import { UserButton } from "@clerk/nextjs";
 
 interface pageProps {}
 
 const page: FC<pageProps> = () => {
-  return (
-    <div>
-      <UserButton afterSignOutUrl="/" />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default page;
