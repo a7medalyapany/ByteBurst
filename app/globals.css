@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("../styles/theme.css");
  
 @layer base {
   :root {
@@ -56,4 +57,23 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+.flex-center {
+@apply flex justify-center items-center;
+}
+.flex-between {
+@apply flex justify-between items-center;
+}
+.flex-start {
+@apply flex justify-start items-center;
+}
+.markdown {
+@apply max-w-full prose dark:prose-p:text-foreground dark:pros
+}
+
+.no-focus {
+@apply focus-visible:ring-0 focus-visible:ring-transparent focus
+}
 }
