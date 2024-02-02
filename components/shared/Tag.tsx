@@ -5,7 +5,7 @@ import { Badge } from "../ui/badge";
 interface TagProps {
   _id: string;
   name: string;
-  totalQuestions: number;
+  totalQuestions?: number;
   showCount?: boolean;
 }
 

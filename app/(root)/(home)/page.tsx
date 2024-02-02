@@ -5,8 +5,61 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import Filters from "@/components/shared/Filters";
 import { HomePageFilters } from "@/constants";
 import HomeFilters from "@/components/home/HomeFilters";
+import NoResult from "@/components/shared/NoResult";
+import QuestionCard from "@/components/card/QuestionCard";
 
 interface pageProps {}
+
+const questions = [
+  {
+    _id: "1",
+    title: "How to use React?",
+    tags: [
+      { _id: "1", name: "React" },
+      { _id: "2", name: "JavaScript" },
+    ],
+    author: {
+      _id: "Alyapany",
+      name: "Alyapany",
+      picture: "url/to/picture",
+    },
+    upvotes: 10,
+    views: 10950,
+    answers: [],
+    createdAt: new Date("2021-10-10T12:00:00.000Z"),
+  },
+  {
+    _id: "2",
+    title: "How to use Next?",
+    tags: [
+      { _id: "1", name: "Next" },
+      { _id: "2", name: "TypeScript" },
+    ],
+    author: {
+      _id: "Alyapany",
+      name: "Alyapany",
+      picture: "url/to/picture",
+    },
+    upvotes: 10,
+    views: 100,
+    answers: [],
+    createdAt: new Date("2023-10-10T12:00:00.000Z"),
+  },
+  {
+    _id: "3",
+    title: "How to use Rust?",
+    tags: [{ _id: "1", name: "Rust" }],
+    author: {
+      _id: "Alyapany",
+      name: "Alyapany",
+      picture: "url/to/picture",
+    },
+    upvotes: 10,
+    views: 100,
+    answers: [],
+    createdAt: new Date("2021-10-10T12:00:00.000Z"),
+  },
+];
 
 const page: FC<pageProps> = () => {
   return (
@@ -37,6 +90,31 @@ const page: FC<pageProps> = () => {
       </div>
 
       <HomeFilters />
+
+      <div className="mt-10 flex w-full flex-col gap-6">
+        {questions.length > 0 ? (
+          questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              _id={question._id}
+              title={question.title}
+              tags={question.tags}
+              author={question.author}
+              upvotes={question.upvotes}
+              views={question.views}
+              answers={question.answers}
+              createdAt={question.createdAt}
+            />
+          ))
+        ) : (
+          <NoResult
+            title="There's no question to show"
+            description="Be the first to ask a question, or check back later for new questions. Crack the code or Roll in expert mode."
+            link="/"
+            linkText="Ask a Question"
+          />
+        )}
+      </div>
     </>
   );
 };
