@@ -18,7 +18,7 @@ const GlobalSearch: FC<GlobalSearchProps> = () => {
         <Input
           type="text"
           placeholder="Search globaly"
-          className="paragraph-regular no-focus placeholder rounded-xl border-none bg-transparent outline-none"
+          className="paragraph-regular placeholder rounded-xl border-none bg-transparent outline-none"
         />
       </div>
     </div>
