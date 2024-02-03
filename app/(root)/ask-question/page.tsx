@@ -1,14 +1,25 @@
 import Question from "@/components/form/Question";
+import { getUserById } from "@/lib/actions/user.action";
+// import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 import { FC } from "react";
 
 interface pageProps {}
 
-const page: FC<pageProps> = () => {
+const page: FC<pageProps> = async () => {
+  // const { userId } = auth();
+
+  const userId = "123456";
+
+  if (!userId) redirect("/login");
+
+  const mongoUser = await getUserById({ userId });
+  console.log(mongoUser);
   return (
     <div>
       <h1 className="h1-bold">Ask a question</h1>
       <div className="mt-9">
-        <Question />
+        <Question mongoUserId={JSON.stringify(mongoUser._id)} />
       </div>
     </div>
   );

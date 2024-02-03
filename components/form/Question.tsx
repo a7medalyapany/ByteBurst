@@ -21,15 +21,20 @@ import { Input } from "@/components/ui/input";
 import { QuestionSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 
-interface QuestionProps {}
+interface QuestionProps {
+  mongoUserId: string;
+}
 
 const type = "create";
 const DynamicQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const Question: FC<QuestionProps> = () => {
+const Question: FC<QuestionProps> = ({ mongoUserId }) => {
   const [value, setValue] = useState("");
   const [isSubmitting, setisSubmitting] = useState<boolean>(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
@@ -102,9 +107,15 @@ const Question: FC<QuestionProps> = () => {
     setisSubmitting(true);
 
     try {
-      await createQuestion({});
-      // 2. update a question
-      // navigate to home
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
+
+      router.push("/");
     } catch (error) {
       console.log(error);
       throw error;

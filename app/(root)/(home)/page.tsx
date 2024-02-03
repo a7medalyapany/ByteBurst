@@ -7,61 +7,14 @@ import { HomePageFilters } from "@/constants";
 import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/card/QuestionCard";
+import { getQuestions } from "@/lib/actions/question.action";
 
 interface pageProps {}
 
-const questions = [
-  {
-    _id: "1",
-    title: "How to use React?",
-    tags: [
-      { _id: "1", name: "React" },
-      { _id: "2", name: "JavaScript" },
-    ],
-    author: {
-      _id: "Alyapany",
-      name: "Alyapany",
-      picture: "url/to/picture",
-    },
-    upvotes: 10,
-    views: 10950,
-    answers: [],
-    createdAt: new Date("2021-10-10T12:00:00.000Z"),
-  },
-  {
-    _id: "2",
-    title: "How to use Next?",
-    tags: [
-      { _id: "1", name: "Next" },
-      { _id: "2", name: "TypeScript" },
-    ],
-    author: {
-      _id: "Alyapany",
-      name: "Alyapany",
-      picture: "url/to/picture",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [],
-    createdAt: new Date("2023-10-10T12:00:00.000Z"),
-  },
-  {
-    _id: "3",
-    title: "How to use Rust?",
-    tags: [{ _id: "1", name: "Rust" }],
-    author: {
-      _id: "Alyapany",
-      name: "Alyapany",
-      picture: "url/to/picture",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [],
-    createdAt: new Date("2021-10-10T12:00:00.000Z"),
-  },
-];
+const page: FC<pageProps> = async () => {
+  const result = await getQuestions({});
 
-const page: FC<pageProps> = () => {
+  console.log(result);
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -92,8 +45,8 @@ const page: FC<pageProps> = () => {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
