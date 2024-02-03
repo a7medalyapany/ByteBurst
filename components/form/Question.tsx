@@ -1,4 +1,6 @@
 "use client";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
 import React, { FC, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,15 +19,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { QuestionSchema } from "@/lib/validations";
-import TextEditor from "../TextEditor";
 import { Badge } from "../ui/badge";
+import { createQuestion } from "@/lib/actions/question.action";
 
 interface QuestionProps {}
 
 const type = "create";
+const DynamicQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const Question: FC<QuestionProps> = () => {
+  const [value, setValue] = useState("");
   const [isSubmitting, setisSubmitting] = useState<boolean>(false);
+
+  const toolbarOptions = [
+    ["bold", "italic", "underline", "strike"],
+    ["blockquote", "code-block"],
+    [{ header: 1 }, { header: 2 }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+    [{ direction: "rtl" }],
+    [{ color: [] }, { background: [] }],
+    [{ font: [] }],
+    [{ align: [] }],
+    ["clean"],
+  ];
 
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -80,11 +98,11 @@ const Question: FC<QuestionProps> = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     setisSubmitting(true);
 
     try {
-      // 1. create a new question
+      await createQuestion({});
       // 2. update a question
       // navigate to home
     } catch (error) {
@@ -134,7 +152,18 @@ const Question: FC<QuestionProps> = () => {
                 <span className="text-foreground"> *</span>
               </FormLabel>
               <FormControl className="mt-3.5">
-                <TextEditor />
+                <div className="h-[250px] overflow-hidden bg-transparent">
+                  <DynamicQuill
+                    theme="snow"
+                    value={value}
+                    modules={{ toolbar: toolbarOptions }}
+                    onChange={(value) => {
+                      setValue(value);
+                      form.setValue("explanation", value);
+                    }}
+                    className="h-[170px]"
+                  />
+                </div>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-muted-foreground">
                 Feel free and explain your problem in detail, including any
@@ -197,7 +226,6 @@ const Question: FC<QuestionProps> = () => {
           ) : (
             <>{type === "create" ? "Ask a Question" : "Update"}</>
           )}
-          Submit
         </Button>
       </form>
     </Form>
