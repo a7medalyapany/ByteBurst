@@ -3,7 +3,7 @@ import { SignUp } from "@clerk/nextjs";
 
 interface pageProps {}
 
-const Page: FC<pageProps> = ({}) => {
+const Page: FC<pageProps> = () => {
   return <SignUp />;
 };
 
