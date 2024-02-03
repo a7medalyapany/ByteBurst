@@ -3,7 +3,6 @@ import { FC } from "react";
 import Tag from "../shared/Tag";
 import Metric from "../shared/Metric";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
-// import { auth } from "@clerk/nextjs";
 
 interface QuestionCardProps {
   _id: string;
@@ -56,7 +55,8 @@ const QuestionCard: FC<QuestionCardProps> = ({
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
-          imgUrl="/assets/icons/avatar.svg"
+          href={`/profile/:${author._id}`}
+          imgUrl={author.picture}
           alt="Author Picture"
           value={author.name}
           title={`- asked ${getTimeStamp(createdAt)}`}

@@ -28,7 +28,7 @@ const Metric: FC<MetricProps> = ({
         alt={alt}
         width={16}
         height={16}
-        className={`object-contain ${href ? "rounded-full" : ""}`}
+        className={`object-contain ${href ? "size-[28px] rounded-full" : ""}`}
       />
       <p className={`${textStyle} flex items-center gap-1`}>
         {value}
