@@ -41,7 +41,6 @@ const Question: FC<QuestionProps> = ({ mongoUserId }) => {
     ["blockquote", "code-block"],
     [{ header: 1 }, { header: 2 }],
     [{ list: "ordered" }, { list: "bullet" }],
-    [{ script: "sub" }, { script: "super" }],
     [{ indent: "-1" }, { indent: "+1" }],
     [{ direction: "rtl" }],
     [{ color: [] }, { background: [] }],
