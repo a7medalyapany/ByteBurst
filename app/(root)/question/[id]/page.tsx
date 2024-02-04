@@ -63,7 +63,13 @@ const page: FC<pageProps> = async ({ params, searchParams }: any) => {
 
       <div className="mt-8 flex flex-wrap gap-2 rounded-lg">
         {result.tags.map((tag: any) => (
-          <Tag key={tag._id} _id={tag._id} name={tag.name} showCount={false} />
+          <Tag
+            key={tag._id}
+            _id={tag._id}
+            name={tag.name}
+            showCount={false}
+            className="mb-1 rounded-3xl"
+          />
         ))}
       </div>
 
