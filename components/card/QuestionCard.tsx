@@ -55,11 +55,12 @@ const QuestionCard: FC<QuestionCardProps> = ({
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
-          href={`/profile/:${author._id}`}
           imgUrl={author.picture}
           alt="Author Picture"
           value={author.name}
           title={`- asked ${getTimeStamp(createdAt)}`}
+          href={`/profile/${author._id}`}
+          isAuthor
           textStyle="body-medium text-muted-foreground"
         />
         <Metric

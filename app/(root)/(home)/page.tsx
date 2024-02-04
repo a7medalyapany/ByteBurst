@@ -63,7 +63,7 @@ const page: FC<pageProps> = async () => {
           <NoResult
             title="There's no question to show"
             description="Be the first to ask a question, or check back later for new questions. Crack the code or Roll in expert mode."
-            link="/"
+            link="/ask-question"
             linkText="Ask a Question"
           />
         )}
