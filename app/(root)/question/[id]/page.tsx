@@ -7,11 +7,21 @@ import { formatNumber, getTimeStamp } from "@/lib/utils";
 import ParseHTML from "@/components/shared/ParseHTML";
 import Tag from "@/components/shared/Tag";
 import Answer from "@/components/form/Answer";
+import { auth } from "@clerk/nextjs";
+import { getUserById } from "@/lib/actions/user.action";
+import AllAnswers from "@/components/shared/AllAnswers";
+import Votes from "@/components/shared/Votes";
 
 interface pageProps {}
 
 const page: FC<pageProps> = async ({ params, searchParams }: any) => {
+  const { userId: clerkId } = auth();
+  let mongoUser;
   const result = await getQuestionById({ questionId: params.id });
+
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
 
   return (
     <>
@@ -30,7 +40,9 @@ const page: FC<pageProps> = async ({ params, searchParams }: any) => {
             />
             <p className="paragraph-semibold">{result.author.name}</p>
           </Link>
-          <div className="flex justify-end">Voting</div>
+          <div className="flex justify-end">
+            <Votes />
+          </div>
         </div>
         <h2 className="h2-semibold mt-3.5 w-full text-left">{result.title}</h2>
       </div>
@@ -73,7 +85,17 @@ const page: FC<pageProps> = async ({ params, searchParams }: any) => {
         ))}
       </div>
 
-      <Answer />
+      <AllAnswers
+        questionId={result._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswers={result.answers.length}
+      />
+
+      <Answer
+        question={result.content}
+        authorId={JSON.stringify(mongoUser._id)}
+        questionId={JSON.stringify(result._id)}
+      />
     </>
   );
 };

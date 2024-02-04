@@ -15,14 +15,21 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { Button } from "../ui/button";
+import { CreateAnswer } from "@/lib/actions/answer.action";
+import { usePathname } from "next/navigation";
 
-interface AnswerProps {}
+interface AnswerProps {
+  questionId: string;
+  question: string;
+  authorId: string;
+}
 
 const DynamicQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const Answer: FC<AnswerProps> = () => {
+const Answer: FC<AnswerProps> = ({ question, questionId, authorId }) => {
   const [value, setValue] = useState("");
   const [isSubmitting, setisSubmitting] = useState<boolean>(false);
+  const pathname = usePathname();
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
@@ -44,8 +51,26 @@ const Answer: FC<AnswerProps> = () => {
     },
   });
 
-  const handleCreateAnswer = (data: z.infer<typeof AnswerSchema>) => {
-    console.log(data);
+  const handleCreateAnswer = async (data: z.infer<typeof AnswerSchema>) => {
+    setisSubmitting(true);
+
+    try {
+      await CreateAnswer({
+        content: data.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname,
+      });
+
+      form.reset();
+      if (value) {
+        setValue("");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setisSubmitting(false);
+    }
   };
 
   return (
