@@ -55,7 +55,7 @@ const QuestionCard: FC<QuestionCardProps> = ({
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
-          href={`/profile/:${author._id}`}
+          href={`/profile/${author._id}`}
           imgUrl={author.picture}
           alt="Author Picture"
           value={author.name}

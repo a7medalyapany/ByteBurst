@@ -42,3 +42,8 @@ export function formatNumber(n: number): string {
     return n.toString();
   }
 }
+export function formatJoinAt(inputDate: Date): string {
+  const month = inputDate.toLocaleString('default', { month: 'long' });
+  const year = inputDate.getFullYear();
+  return `${month} ${year}`;
+}
