@@ -11,10 +11,9 @@ import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers";
 import Votes from "@/components/shared/Votes";
+import { URLProps } from "@/types";
 
-interface pageProps {}
-
-const Page: FC<pageProps> = async ({ params, searchParams }: any) => {
+const Page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   let mongoUser: any;
   const result = await getQuestionById({ questionId: params.id });
