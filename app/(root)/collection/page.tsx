@@ -57,8 +57,8 @@ const page: FC<pageProps> = async () => {
         ) : (
           <NoResult
             title="There's no saved question to show"
-            description="Be the first to ask a question, or check back later for new questions. Crack the code or Roll in expert mode."
-            link="/"
+            description="Save questions for easy access later. Build your personalized Q&A playlist. Effortless retrieval, no more searching. Your handy tool for future reference."
+            link="/ask-question"
             linkText="Ask a Question"
           />
         )}
