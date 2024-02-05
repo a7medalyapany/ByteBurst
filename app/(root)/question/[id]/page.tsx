@@ -14,9 +14,9 @@ import Votes from "@/components/shared/Votes";
 
 interface pageProps {}
 
-const page: FC<pageProps> = async ({ params, searchParams }: any) => {
+const Page: FC<pageProps> = async ({ params, searchParams }: any) => {
   const { userId: clerkId } = auth();
-  let mongoUser;
+  let mongoUser: any;
   const result = await getQuestionById({ questionId: params.id });
 
   if (clerkId) {
@@ -109,4 +109,4 @@ const page: FC<pageProps> = async ({ params, searchParams }: any) => {
   );
 };
 
-export default page;
+export default Page;
