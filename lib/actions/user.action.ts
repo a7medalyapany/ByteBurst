@@ -108,7 +108,7 @@ export async function saveQuestion(params: ToggleSaveQuestionParams) {
 			throw new Error('User not found');
 		}
 
-		const isQuestionSaved = user.saved.inclueds(questionId); 
+		const isQuestionSaved = user.saved.includes(questionId); 
 
 		if (isQuestionSaved) {
 			await User.findByIdAndUpdate(userId, { $pull: { saved: questionId } }, { new: true });
