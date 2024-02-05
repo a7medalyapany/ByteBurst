@@ -80,7 +80,7 @@ const Answer: FC<AnswerProps> = ({ question, questionId, authorId }) => {
           Your Answer <span className="text-red-500">*</span>
         </h4>
 
-        <Button className="gap-1.5 rounded-md border px-4 py-2.5 shadow-none">
+        <Button className="mt-1 gap-1.5 rounded-md border px-4 py-2.5 shadow-none">
           <Image
             src="/assets/icons/stars.svg"
             alt="star"
