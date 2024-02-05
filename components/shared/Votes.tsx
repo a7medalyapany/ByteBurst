@@ -8,6 +8,7 @@ import {
   upvoteQuestion,
 } from "@/lib/actions/question.action";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
+import { saveQuestion } from "@/lib/actions/user.action";
 
 interface VotesProps {
   type: string;
@@ -32,8 +33,13 @@ const Votes: FC<VotesProps> = ({
 }) => {
   const pathname = usePathname();
   // const router = useRouter();
-  const handleSave = () => {
-    console.log("save");
+
+  const handleSave = async () => {
+    await saveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path: pathname,
+    });
   };
 
   const handleVote = async (voteType: string) => {
