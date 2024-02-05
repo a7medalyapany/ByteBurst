@@ -1,29 +1,28 @@
 import { FC } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import Filters from "@/components/shared/Filters";
-import { HomePageFilters } from "@/constants";
-import HomeFilters from "@/components/home/HomeFilters";
+import { QuestionFilters } from "@/constants";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/card/QuestionCard";
-import { getQuestions } from "@/lib/actions/question.action";
+import { getSavedQuestions } from "@/lib/actions/user.action";
+import { auth } from "@clerk/nextjs";
 
 interface pageProps {}
 
 const page: FC<pageProps> = async () => {
-  const result = await getQuestions({});
+  const { userId } = auth();
+
+  if (!userId) {
+    return null;
+  }
+
+  const result = await getSavedQuestions({
+    clerkId: userId,
+  });
 
   return (
     <>
-      <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-        <h1 className="h1-bold">All Questions</h1>
-        <Link href="/ask-question" className="flex justify-end max-sm:w-full">
-          <Button className="min-h-[46px] bg-popover-foreground px-4 py-3">
-            Ask a Question
-          </Button>
-        </Link>
-      </div>
+      <h1 className="h1-bold">Saved Questions</h1>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
@@ -35,17 +34,14 @@ const page: FC<pageProps> = async () => {
         />
 
         <Filters
-          filters={HomePageFilters}
+          filters={QuestionFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
-          containerClasses="hidden max-md:flex"
         />
       </div>
 
-      <HomeFilters />
-
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ? (
-          result.questions.map((question) => (
+          result.questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -60,9 +56,9 @@ const page: FC<pageProps> = async () => {
           ))
         ) : (
           <NoResult
-            title="There's no question to show"
+            title="There's no saved question to show"
             description="Be the first to ask a question, or check back later for new questions. Crack the code or Roll in expert mode."
-            link="/ask-question"
+            link="/"
             linkText="Ask a Question"
           />
         )}
