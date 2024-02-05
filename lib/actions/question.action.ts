@@ -4,7 +4,7 @@ import { connectToDatabase } from "../mongoose"
 import Tag from "@/database/tag.model"
 import User from "@/database/user.model"
 import Question from "@/database/question.model"
-import { CreateQuestionParams, GetQuestionByIdParams, GetQuestionsParams } from "./shared.types"
+import { CreateQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams } from "./shared.types"
 import { revalidatePath } from "next/cache"
 
 export async function createQuestion(params: CreateQuestionParams) {
@@ -69,6 +69,75 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
 	.populate({ path: 'author', model: User, select: '_id clerkId name picture' })
 
 	return question 
+	} catch (error) {
+		console.error(error)
+		throw error
+	}
+}
+export async function upvoteQuestion(params: QuestionVoteParams) {
+	try {
+		connectToDatabase()
+
+		const { questionId, userId, hasupVoted, hasdownVoted, path } = params
+
+		let updateQuesry = {}
+
+		if (hasupVoted) {
+			updateQuesry = { $pull: { upvotes: userId } }
+		} else if (hasdownVoted) {
+			updateQuesry = { $pull: { downvotes: userId}, $push: { upvotes: userId } }
+		} else {
+			updateQuesry = { $addToSet: { upvotes: userId } }
+		}
+
+		const question = await Question.findByIdAndUpdate(
+			questionId,
+			updateQuesry,
+			{ new: true }
+		)
+
+		if (!question) {
+			throw new Error('Question not found')
+		}
+
+		// TODO: create an interaction record
+
+		revalidatePath(path)
+	} catch (error) {
+		console.error(error)
+		throw error
+	}
+}
+
+export async function downvoteQuestion(params: QuestionVoteParams) {
+	try {
+		connectToDatabase()
+
+		const { questionId, userId, hasupVoted, hasdownVoted, path } = params
+
+		let updateQuesry = {}
+
+		if (hasdownVoted) {
+			updateQuesry = { $pull: { downvotes: userId } }
+		} else if (hasupVoted) {
+			updateQuesry = { $pull: { upvotes: userId}, $push: { downvotes: userId } }
+		} else {
+			updateQuesry = { $addToSet: { downvotes: userId } }
+		}
+
+		const question = await Question.findByIdAndUpdate(
+			questionId,
+			updateQuesry,
+			{ new: true }
+		)
+
+		if (!question) {
+			throw new Error('Question not found')
+		}
+
+		// TODO: create an interaction record
+
+		revalidatePath(path)
 	} catch (error) {
 		console.error(error)
 		throw error

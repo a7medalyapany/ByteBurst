@@ -14,7 +14,6 @@ interface pageProps {}
 const page: FC<pageProps> = async () => {
   const result = await getQuestions({});
 
-  console.log(result);
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -53,7 +52,7 @@ const page: FC<pageProps> = async () => {
               title={question.title}
               tags={question.tags}
               author={question.author}
-              upvotes={question.upvotes}
+              upvotes={question.upvotes.length}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}
