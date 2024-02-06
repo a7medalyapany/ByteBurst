@@ -13,6 +13,7 @@ interface QuestionCardProps {
   }[];
   author: {
     _id: string;
+    clerkId?: string | null;
     name: string;
     picture: string;
   };
@@ -52,12 +53,17 @@ const QuestionCard: FC<QuestionCardProps> = ({
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((tag) => (
-          <Tag key={tag._id} _id={tag._id} name={tag.name} />
+          <Tag
+            key={tag._id}
+            _id={tag._id}
+            name={tag.name}
+            className="rounded-3xl"
+          />
         ))}
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
-          href={`/profile/${author._id}`}
+          href={`/profile/${author.clerkId}`}
           imgUrl={author.picture}
           alt="Author Picture"
           value={author.name}
