@@ -215,25 +215,53 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 	}
 }
 
+// export async function getUserAnswers(params: GetUserStatsParams) {
+// 	try {
+// 		connectToDatabase()
+
+// 		const { userId } = params;
+
+// 		const totalAnswers = await Answer.countDocuments({ author: userId });
+
+// 		const userAnswers = await Answer.find({ author: userId })
+// 		.sort({ upvotes: -1 })
+// 		.populate('question', '_id title')
+// 		.populate('author', '_id clerkId name picture')
+
+// 		return { totalAnswers, answers: userAnswers }
+// 	}
+// 	catch (error) { 
+// 		console.error(error)
+// 		throw error
+// 	}
+// }
+
 export async function getUserAnswers(params: GetUserStatsParams) {
-	try {
-		connectToDatabase()
+    try {
+        connectToDatabase()
 
-		const { userId } = params;
+        const { userId } = params;
 
-		const totalAnswers = await Answer.countDocuments({ author: userId });
+        // Get unique question IDs the user answered
+        const uniqueUserAnswers = await Answer.distinct("question", { author: userId });
 
-		const userAnswers = await Answer.find({ author: userId })
-		.sort({ upvotes: -1 })
-		.populate('question', '_id title')
-		.populate('author', '_id clerkId name picture')
+        const totalAnswers = uniqueUserAnswers.length;
 
-		return { totalAnswers, answers: userAnswers }
-	}
-	catch (error) { 
-		console.error(error)
-		throw error
-	}
+        // Get the top-voted answer for each unique question
+        const userAnswers = await Promise.all(uniqueUserAnswers.map(async (questionId) => {
+            const topAnswer = await Answer.findOne({ question: questionId })
+                .sort({ upvotes: -1 })
+                .populate('question', '_id title')
+                .populate('author', '_id clerkId name picture');
+
+            return topAnswer;
+        }));
+
+        return { totalAnswers, answers: userAnswers.filter(answer => answer !== null) };
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
 }
 
 // export async function getAllUsers(params: GetAllUsersParams) {
