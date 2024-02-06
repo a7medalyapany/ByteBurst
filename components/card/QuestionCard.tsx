@@ -20,10 +20,12 @@ interface QuestionCardProps {
   views: number;
   answers: Array<object>;
   createdAt: Date;
+  clerkId?: string | null;
 }
 
 const QuestionCard: FC<QuestionCardProps> = ({
   _id,
+  clerkId,
   title,
   tags,
   author,

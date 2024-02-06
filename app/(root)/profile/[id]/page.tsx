@@ -9,6 +9,8 @@ import { formatJoinAt } from "@/lib/utils";
 import ProfileLink from "@/components/shared/profile/ProfileLink";
 import Stats from "@/components/shared/profile/Stats";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import QuestionTab from "@/components/shared/profile/QuestionTab";
+import AnswerTab from "@/components/shared/profile/AnswerTab";
 
 const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
@@ -81,8 +83,8 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
 
       <Stats />
 
-      <div className="flex flex-col-reverse gap-4 pt-6 sm:flex-row">
-        <Tabs defaultValue="top-posts" className="flex-1">
+      <Tabs defaultValue="top-posts" className="flex-1">
+        <div className="flex flex-col-reverse gap-4 pt-6 sm:flex-row">
           <TabsList className="min-h-[42px] w-full justify-between p-1 sm:w-fit">
             <TabsTrigger className="w-full rounded-md" value="top-posts">
               Top Posts
@@ -91,11 +93,26 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
               Answers
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="top-posts">Posts</TabsContent>
-          <TabsContent value="answers">Answers</TabsContent>
-        </Tabs>
-        <Button className="ml-auto w-full sm:w-fit">Dummy Edit Profile</Button>
-      </div>
+          <Button className="ml-auto w-full sm:w-fit">
+            Dummy Edit Profile
+          </Button>
+        </div>
+
+        <TabsContent value="top-posts" className="mt-4 space-y-4">
+          <QuestionTab
+            userId={userInfo.user._id}
+            clerkId={clerkId}
+            searchParams={searchParams}
+          />
+        </TabsContent>
+        <TabsContent value="answers">
+          <AnswerTab
+            userId={userInfo.user._id}
+            clerkId={clerkId}
+            searchParams={searchParams}
+          />
+        </TabsContent>
+      </Tabs>
     </>
   );
 };
