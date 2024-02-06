@@ -65,15 +65,13 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
         </div>
         <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
           <SignedIn>
-            {clerkId === userInfo.user.clerkId && (
-              <Link href="/profile/edit">
-                <Button
-                  variant={"outline"}
-                  className="paragraph-medium min-w-[120px] rounded-3xl px-4 py-3"
-                >
-                  follow
-                </Button>
-              </Link>
+            {clerkId !== userInfo.user.clerkId && (
+              <Button
+                variant={"outline"}
+                className="paragraph-medium min-w-[120px] rounded-3xl px-4 py-3"
+              >
+                follow
+              </Button>
             )}
           </SignedIn>
         </div>
@@ -93,9 +91,13 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
               Answers
             </TabsTrigger>
           </TabsList>
-          <Button className="ml-auto w-full sm:w-fit">
-            Dummy Edit Profile
-          </Button>
+          <SignedIn>
+            {clerkId === userInfo.user.clerkId && (
+              <Link className="ml-auto w-full sm:w-fit" href="/profile/edit">
+                <Button className="w-full">Edit Profile</Button>
+              </Link>
+            )}
+          </SignedIn>
         </div>
 
         <TabsContent value="top-posts" className="mt-4 space-y-4">

@@ -261,7 +261,7 @@ export async function getUserDataByQuestionId(questionId: string): Promise<IUser
 		console.error(error)
 		throw error
 	}
-  }
+}
 
 // export async function getAllUsers(params: GetAllUsersParams) {
 // 	try {

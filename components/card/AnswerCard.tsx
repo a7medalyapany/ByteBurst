@@ -80,7 +80,7 @@ const AnswerCard: FC<AnswerCardProps> = async ({
           />
         </div>
       </div>
-      <div className="mt-5 flex gap-0.5">
+      <div className="mt-5 flex gap-0.5 px-5">
         <Avatar className="size-6">
           <AvatarImage src={author.picture} alt="user picture" />
           <AvatarFallback>{author.name}</AvatarFallback>

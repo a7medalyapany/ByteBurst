@@ -154,7 +154,7 @@ const Question: FC<QuestionProps> = ({
             <FormItem className="flex w-full flex-col">
               <FormLabel className="paragraph-semibold text-muted-foreground/70">
                 Question Title
-                <span className="text-foreground"> *</span>
+                <span className="text-red-500"> *</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
@@ -176,7 +176,7 @@ const Question: FC<QuestionProps> = ({
             <FormItem className="flex w-full flex-col gap-3">
               <FormLabel className="paragraph-semibold text-muted-foreground/70">
                 Detailed explanation of your problem
-                <span className="text-foreground"> *</span>
+                <span className="text-red-500"> *</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <div className="h-[250px] overflow-hidden bg-transparent">
@@ -207,7 +207,7 @@ const Question: FC<QuestionProps> = ({
             <FormItem className="flex w-full flex-col">
               <FormLabel className="paragraph-semibold text-muted-foreground/70">
                 Tags
-                <span className="text-foreground"> *</span>
+                <span className="text-red-500"> *</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <>
