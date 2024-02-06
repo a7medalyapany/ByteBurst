@@ -215,41 +215,6 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 	}
 }
 
-export async function getUserAnswerss(params: GetUserStatsParams) {
-    try {
-        connectToDatabase()
-
-        const { userId } = params;
-
-        // Get unique question IDs the user answered
-        const uniqueUserAnswers = await Answer.distinct("question", { author: userId });
-
-        const totalAnswers = uniqueUserAnswers.length;
-
-        // Get the top-voted answer for each unique question
-        const userAnswers = await Promise.all(uniqueUserAnswers.map(async (questionId) => {
-            const topAnswer = await Answer.findOne({ question: questionId })
-                .sort({ upvotes: -1 })
-                .populate('question', '_id title')
-                .populate('author', '_id clerkId name picture');
-
-				const userAnswer = await Answer.findOne({ question: questionId, author: userId });
-
-				// Add the user's answer content to the top answer
-				if (userAnswer) {
-					topAnswer.content = userAnswer.content;
-				}
-            return topAnswer;
-        }));
-
-		console.log({ userAnswers} );
-        // return { totalAnswers, answers: userAnswers.filter(answer => answer !== null) };
-        return { totalAnswers, answers: userAnswers };
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
 export async function getUserAnswers(params: GetUserStatsParams) {
     try {
         connectToDatabase()
@@ -271,7 +236,6 @@ export async function getUserAnswers(params: GetUserStatsParams) {
         throw error;
     }
 }
-
 
 export async function getUserDataByQuestionId(questionId: string): Promise<IUser | null> {
 	try {
