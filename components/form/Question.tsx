@@ -41,8 +41,8 @@ const Question: FC<QuestionProps> = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const parsedQuestionDetails = JSON.parse(questionDetails || "");
-
+  const parsedQuestionDetails =
+    type === "Edit" ? JSON.parse(questionDetails || "{}") : { tags: [] };
   const groupTags = parsedQuestionDetails.tags.map((tag: any) => tag.name);
 
   const toolbarOptions = [
@@ -140,8 +140,6 @@ const Question: FC<QuestionProps> = ({
     } finally {
       setisSubmitting(false);
     }
-
-    console.log(values);
   }
   return (
     <Form {...form}>

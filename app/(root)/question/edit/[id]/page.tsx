@@ -20,7 +20,7 @@ const page: FC<ParamsProps> = async ({ params }: ParamsProps) => {
       <div className="mt-9">
         <Question
           type="Edit"
-          mongoUserId={JSON.stringify(mongoUser._id)}
+          mongoUserId={mongoUser._id}
           questionDetails={JSON.stringify(result)}
         />
       </div>
