@@ -1,6 +1,6 @@
 'use server'
 
-import User from "@/database/user.model";
+import User, { IUser } from "@/database/user.model";
 import { connectToDatabase } from "../mongoose"
 import { CreateUserParams, DeleteUserParams, GetAllUsersParams, GetSavedQuestionsParams, GetUserByIdParams, GetUserStatsParams, ToggleSaveQuestionParams, UpdateUserParams } from "./shared.types";
 import { revalidatePath } from "next/cache";
@@ -215,7 +215,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 	}
 }
 
-export async function getUserAnswers(params: GetUserStatsParams) {
+export async function getUserAnswerss(params: GetUserStatsParams) {
     try {
         connectToDatabase()
 
@@ -233,15 +233,71 @@ export async function getUserAnswers(params: GetUserStatsParams) {
                 .populate('question', '_id title')
                 .populate('author', '_id clerkId name picture');
 
+				const userAnswer = await Answer.findOne({ question: questionId, author: userId });
+
+				// Add the user's answer content to the top answer
+				if (userAnswer) {
+					topAnswer.content = userAnswer.content;
+				}
             return topAnswer;
         }));
 
-        return { totalAnswers, answers: userAnswers.filter(answer => answer !== null) };
+		console.log({ userAnswers} );
+        // return { totalAnswers, answers: userAnswers.filter(answer => answer !== null) };
+        return { totalAnswers, answers: userAnswers };
     } catch (error) {
         console.error(error);
         throw error;
     }
 }
+export async function getUserAnswers(params: GetUserStatsParams) {
+    try {
+        connectToDatabase()
+
+        const { userId } = params;
+
+        const totalAnswers = await Answer.countDocuments({ author: userId });
+
+        const userAnswers = await Answer.find({ author: userId })
+                .sort({ upvotes: -1 })
+                .populate('question', '_id title')
+                .populate('author', '_id clerkId name picture');
+
+
+		console.log({ userAnswers} );
+        return { totalAnswers, answers: userAnswers };
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+
+export async function getUserDataByQuestionId(questionId: string): Promise<IUser | null> {
+	try {
+	  const question = await Question
+		.findById(questionId)
+		.populate('author', 'clerkId name username email bio picture location portfolio reputation saved joinedAt');
+	  
+	  if (!question) {
+		console.log('Question not found!');
+		return null;
+	  }
+  
+	  const { author } = question;
+	  const user: IUser | null = await User.findById(author._id);
+  
+	  if (!user) {
+		console.log('User not found!');
+		return null;
+	  }
+
+	  return user ;
+	} catch (error) {
+		console.error(error)
+		throw error
+	}
+  }
 
 // export async function getAllUsers(params: GetAllUsersParams) {
 // 	try {

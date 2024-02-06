@@ -4,6 +4,9 @@ import { FC } from "react";
 import Metric from "../shared/Metric";
 import { SignedIn } from "@clerk/nextjs";
 import EditDeleteAction from "../shared/EditDeleteAction";
+import { getUserDataByQuestionId } from "@/lib/actions/user.action";
+import ParseHTML from "../shared/ParseHTML";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface AnswerCardProps {
   clerkId?: string | null;
@@ -18,19 +21,22 @@ interface AnswerCardProps {
     name: string;
     picture: string;
   };
+  content: string;
   upvotes: number;
   createdAt: Date;
 }
 
-const AnswerCard: FC<AnswerCardProps> = ({
+const AnswerCard: FC<AnswerCardProps> = async ({
   clerkId,
   _id,
   question,
   author,
+  content,
   upvotes,
   createdAt,
 }) => {
   const showActionButtons = clerkId && clerkId === author.clerkId;
+  const questionAuthor = await getUserDataByQuestionId(question._id);
 
   return (
     <div className="mt-4 rounded-[10px] bg-card-foreground/90 p-9 text-secondary sm:px-11">
@@ -53,13 +59,13 @@ const AnswerCard: FC<AnswerCardProps> = ({
         </SignedIn>
       </div>
 
-      <div className="flex-between mt-6 w-full flex-wrap gap-3">
+      <div className="flex-between mt-3 w-full flex-wrap gap-3">
         <Metric
-          imgUrl={author.picture}
+          imgUrl={questionAuthor!.picture}
           alt="Author Picture"
-          value={author.name}
+          value={questionAuthor!.name}
           title={`- asked ${getTimeStamp(createdAt)}`}
-          href={`/profile/${author.clerkId}`}
+          href={`/profile/${questionAuthor!.clerkId}`}
           isAuthor
           textStyle="body-medium text-muted-foreground"
         />
@@ -72,6 +78,15 @@ const AnswerCard: FC<AnswerCardProps> = ({
             title={" Votes"}
             textStyle="small-medium text-muted-foreground"
           />
+        </div>
+      </div>
+      <div className="mt-5 flex gap-0.5">
+        <Avatar className="size-6">
+          <AvatarImage src={author.picture} alt="user picture" />
+          <AvatarFallback>{author.name}</AvatarFallback>
+        </Avatar>
+        <div className="line-clamp-1 rounded-lg bg-card/90 leading-[1.8rem] text-card-foreground shadow-md">
+          <ParseHTML data={content} />
         </div>
       </div>
     </div>

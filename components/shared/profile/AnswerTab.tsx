@@ -23,6 +23,7 @@ const AnswerTab: FC<AnswerTabProps> = async ({
           clerkId={clerkId}
           question={answer.question}
           author={answer.author}
+          content={answer.content}
           upvotes={answer.upvotes.length}
           createdAt={answer.createdAt}
         />
