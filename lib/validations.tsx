@@ -32,14 +32,6 @@ const isValidUrl = (value: string): boolean => {
 };
 
 export const ProfileSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: "Name must be at least 3 characters long" })
-    .max(30, { message: "Name cannot exceed 30 characters" }),
-  username: z
-    .string()
-    .min(3, { message: "Username must be at least 3 characters long" })
-    .max(50, { message: "Username cannot exceed 50 characters" }),
   portfolio: z
     .string()
     .optional()

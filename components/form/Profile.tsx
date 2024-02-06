@@ -33,8 +33,6 @@ const Profile: FC<ProfileProps> = ({ clerkId, user }) => {
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      name: parsedUser.name || "",
-      username: parsedUser.username || "",
       portfolio: parsedUser.portfolio || "",
       location: parsedUser.location || "",
       bio: parsedUser.bio || "",
@@ -48,8 +46,6 @@ const Profile: FC<ProfileProps> = ({ clerkId, user }) => {
       await updateUser({
         clerkId,
         updateData: {
-          name: values.name,
-          username: values.username,
           portfolio: values.portfolio,
           location: values.location,
           bio: values.bio,
@@ -71,44 +67,6 @@ const Profile: FC<ProfileProps> = ({ clerkId, user }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="mt-9 flex w-full flex-col gap-9"
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem className="space-y-3.5 ">
-              <FormLabel>
-                Name <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="paragraph-regular min-h-[56px] border bg-accent"
-                  placeholder="Name"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem className="space-y-3.5 ">
-              <FormLabel>
-                Username <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="paragraph-regular min-h-[56px] border bg-accent"
-                  placeholder="Username"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="portfolio"
@@ -155,6 +113,7 @@ const Profile: FC<ProfileProps> = ({ clerkId, user }) => {
               <FormControl>
                 <Textarea
                   required={false}
+                  rows={5}
                   className="paragraph-regular min-h-[56px] border bg-accent"
                   placeholder="Bio"
                   {...field}
