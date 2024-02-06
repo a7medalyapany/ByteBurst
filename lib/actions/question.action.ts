@@ -4,8 +4,10 @@ import { connectToDatabase } from "../mongoose"
 import Tag from "@/database/tag.model"
 import User from "@/database/user.model"
 import Question from "@/database/question.model"
-import { CreateQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams } from "./shared.types"
+import { CreateQuestionParams, DeleteQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams } from "./shared.types"
 import { revalidatePath } from "next/cache"
+import Answer from "@/database/answer.model"
+import Interaction from "@/database/interaction.model"
 
 export async function createQuestion(params: CreateQuestionParams) {
 	try {
@@ -144,9 +146,27 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
 	}
 }
 
+export async function deleteQuestion(params: DeleteQuestionParams) {
+	try {
+		connectToDatabase()
+
+		const { questionId, path } = params	
+		
+		await Question.deleteOne({ _id: questionId })
+		await Answer.deleteMany({ question: questionId })
+		await Interaction.deleteMany({ question: questionId })
+		await Tag.updateMany({ questions: questionId }, { $pull: { questions: questionId } })
+
+		revalidatePath(path)
+	} catch (error) {
+		console.error(error)
+		throw error
+	}
+}
+
 // export async function name(params: any) {
 // 	try {
-	// connectToDatabase()
+		// connectToDatabase()
 
 		
 // 	} catch (error) {

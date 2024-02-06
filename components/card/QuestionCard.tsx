@@ -3,6 +3,8 @@ import { FC } from "react";
 import Tag from "../shared/Tag";
 import Metric from "../shared/Metric";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
+import { SignedIn } from "@clerk/nextjs";
+import EditDeleteAction from "../shared/EditDeleteAction";
 
 interface QuestionCardProps {
   _id: string;
@@ -35,6 +37,7 @@ const QuestionCard: FC<QuestionCardProps> = ({
   answers,
   createdAt,
 }) => {
+  const showActionButtons = clerkId && clerkId === author.clerkId;
   return (
     <div className="rounded-[10px] bg-card-foreground/90 p-9 text-secondary sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -49,7 +52,11 @@ const QuestionCard: FC<QuestionCardProps> = ({
           </Link>
         </div>
 
-        {/* TODO */}
+        <SignedIn>
+          {showActionButtons && (
+            <EditDeleteAction type="question" itemId={JSON.stringify(_id)} />
+          )}
+        </SignedIn>
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((tag) => (
