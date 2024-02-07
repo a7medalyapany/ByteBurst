@@ -9,6 +9,7 @@ import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/card/QuestionCard";
 import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination";
 
 const page: FC<SearchParamsProps> = async ({
   searchParams,
@@ -72,6 +73,12 @@ const page: FC<SearchParamsProps> = async ({
             linkText="Ask a Question"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result.isNext}
+        />
       </div>
     </>
   );
