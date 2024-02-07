@@ -34,7 +34,9 @@ export async function getAnswers(params: GetAnswersParams) {
 	try {
 		connectToDatabase()
 
-		const { questionId, sortBy } = params
+		const { questionId, sortBy, page = 1, pageSize = 10 } = params
+
+		const skip = (page - 1) * pageSize
 
 		let filterOptions = {}
 
@@ -58,8 +60,14 @@ export async function getAnswers(params: GetAnswersParams) {
 		const answers = await Answer.find({ question: questionId })
 		.populate('author', '_id clerkId name picture')
 		.sort(filterOptions)
+		.skip(skip)
+		.limit(pageSize)
 
-		return { answers }
+		const totalAnswers = await Answer.countDocuments({ question: questionId })
+		
+		const isNext = totalAnswers > skip + answers.length
+
+		return { answers, isNext }
 	} catch (error) {
 		console.error(error)
 		throw error
