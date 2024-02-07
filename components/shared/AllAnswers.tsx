@@ -12,8 +12,8 @@ interface AllAnswersProps {
   questionId: string;
   userId: string;
   totalAnswers: number;
-  page?: number;
-  filter?: number;
+  page?: string;
+  filter?: string;
 }
 
 const AllAnswers: FC<AllAnswersProps> = async ({
@@ -23,7 +23,11 @@ const AllAnswers: FC<AllAnswersProps> = async ({
   page,
   filter,
 }) => {
-  const result = await getAnswers({ questionId });
+  const result = await getAnswers({
+    questionId,
+    page: page ? +page : 1,
+    sortBy: filter,
+  });
   return (
     <div className="mt-11 gap-4">
       <div className="flex items-center justify-between">
