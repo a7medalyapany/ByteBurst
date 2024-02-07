@@ -5,11 +5,10 @@ import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
 import { FC } from "react";
 
-const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
+const Page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
     tagId: params.id,
     page: 1,
-    // pageSize: searchParams.pageSize,
     searchQuery: searchParams.q,
   });
   return (
@@ -18,7 +17,7 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
 
       <div className="mt-11 w-full">
         <LocalSearchbar
-          route="/"
+          route={`/tags/${params.id}`}
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search tag questions"
@@ -54,4 +53,4 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   );
 };
 
-export default page;
+export default Page;
