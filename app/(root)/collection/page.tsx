@@ -20,6 +20,7 @@ const Page: FC<SearchParamsProps> = async ({
   const result = await getSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
 
   return (

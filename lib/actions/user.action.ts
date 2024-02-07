@@ -153,7 +153,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 	try {
 		connectToDatabase()
 
-		const { clerkId, searchQuery } = params;
+		const { clerkId, filter, searchQuery } = params;
 
 		const query: FilterQuery<typeof Question> = {}
 
@@ -163,12 +163,34 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 			]
 		}
 
+		let filterOptions = {};
+
+		switch (filter) {
+			case 'most_recent':
+				filterOptions = { createdAt: -1 }
+				break;
+			case 'oldest':
+				filterOptions = { createdAt: 1 }
+				break;
+			case 'most_viewed':
+				filterOptions = { views: -1 }
+				break;
+			case 'most_voted':
+				filterOptions = { upvotes: -1 }
+				break;
+			case 'most_answered':
+				filterOptions = { answers: -1 }
+				break;
+			default:
+				break;
+		}
+
 		const user = await User.findOne({ clerkId })
 		.populate({ 
 			path: 'saved',
 			match: query,
 			options: {
-				sort: { createdAt: -1 },
+				sort: filterOptions,
 			},
 			populate: [
 				{
