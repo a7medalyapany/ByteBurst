@@ -17,6 +17,7 @@ const page: FC<SearchParamsProps> = async ({
   const result = await getQuestions({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
   // TODO - Add Recommended Questions
