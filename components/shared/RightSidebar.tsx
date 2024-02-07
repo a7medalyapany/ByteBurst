@@ -34,7 +34,7 @@ const RightSidebar: FC<RightSidebarProps> = async () => {
           ))}
         </div>
       </div>
-      <div className="mt-16">
+      <div className="mt-9">
         <h3 className="h3-bold">Popular Tags</h3>
         <div className="mt-5 flex flex-col gap-4">
           {popularTags.map((tag) => (
@@ -44,6 +44,7 @@ const RightSidebar: FC<RightSidebarProps> = async () => {
               name={tag.name}
               totalQuestions={tag.questionsNumber}
               showCount
+              className="rounded-3xl"
             />
           ))}
         </div>
