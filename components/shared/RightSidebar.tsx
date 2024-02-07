@@ -3,40 +3,14 @@ import Link from "next/link";
 import Image from "next/image";
 import Tag from "./Tag";
 import { getHotQuestions } from "@/lib/actions/question.action";
+import { getPopularTags } from "@/lib/actions/tag.action";
 
 interface RightSidebarProps {}
 
-const popularTags = [
-  {
-    _id: "1",
-    title: "Next.js",
-    totalQuestions: 130,
-  },
-  {
-    _id: "2",
-    title: "React",
-    totalQuestions: 100,
-  },
-  {
-    _id: "3",
-    title: "TypeScript",
-    totalQuestions: 108,
-  },
-  {
-    _id: "4",
-    title: "Express",
-    totalQuestions: 125,
-  },
-  {
-    _id: "5",
-    title: "MongoDB",
-    totalQuestions: 80,
-  },
-];
-
 const RightSidebar: FC<RightSidebarProps> = async () => {
   const hotQuestions = await getHotQuestions();
-  // const popularTags = await getPopularTags();
+  const popularTags = await getPopularTags();
+
   return (
     <section className="sticky right-0 top-0 flex h-screen flex-col overflow-y-auto border-l p-6 pt-36 max-xl:hidden lg:w-[350px]">
       <div>
@@ -67,8 +41,8 @@ const RightSidebar: FC<RightSidebarProps> = async () => {
             <Tag
               key={tag._id}
               _id={tag._id}
-              name={tag.title}
-              totalQuestions={tag.totalQuestions}
+              name={tag.name}
+              totalQuestions={tag.questionsNumber}
               showCount
             />
           ))}
