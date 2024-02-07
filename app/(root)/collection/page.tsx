@@ -6,10 +6,11 @@ import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/card/QuestionCard";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
+import { SearchParamsProps } from "@/types";
 
-interface pageProps {}
-
-const page: FC<pageProps> = async () => {
+const Page: FC<SearchParamsProps> = async ({
+  searchParams,
+}: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) {
@@ -18,6 +19,7 @@ const page: FC<pageProps> = async () => {
 
   const result = await getSavedQuestions({
     clerkId: userId,
+    searchQuery: searchParams.q,
   });
 
   return (
@@ -67,4 +69,4 @@ const page: FC<pageProps> = async () => {
   );
 };
 
-export default page;
+export default Page;
