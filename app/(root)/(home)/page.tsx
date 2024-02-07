@@ -8,11 +8,14 @@ import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/card/QuestionCard";
 import { getQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
 
-interface pageProps {}
-
-const page: FC<pageProps> = async () => {
-  const result = await getQuestions({});
+const page: FC<SearchParamsProps> = async ({
+  searchParams,
+}: SearchParamsProps) => {
+  const result = await getQuestions({
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>
