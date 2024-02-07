@@ -2,31 +2,9 @@ import React, { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Tag from "./Tag";
+import { getHotQuestions } from "@/lib/actions/question.action";
 
 interface RightSidebarProps {}
-
-const hotQuestions = [
-  {
-    _id: "1",
-    title: "How to use Next.js",
-  },
-  {
-    _id: "2",
-    title: "How to use React",
-  },
-  {
-    _id: "3",
-    title: "How to use TypeScript",
-  },
-  {
-    _id: "4",
-    title: "How to use Express",
-  },
-  {
-    _id: "5",
-    title: "How to use MongoDB",
-  },
-];
 
 const popularTags = [
   {
@@ -56,7 +34,9 @@ const popularTags = [
   },
 ];
 
-const RightSidebar: FC<RightSidebarProps> = () => {
+const RightSidebar: FC<RightSidebarProps> = async () => {
+  const hotQuestions = await getHotQuestions();
+  // const popularTags = await getPopularTags();
   return (
     <section className="sticky right-0 top-0 flex h-screen flex-col overflow-y-auto border-l p-6 pt-36 max-xl:hidden lg:w-[350px]">
       <div>
@@ -64,7 +44,7 @@ const RightSidebar: FC<RightSidebarProps> = () => {
         <div className="mt-5 flex w-full flex-col gap-[30px]">
           {hotQuestions.map((question) => (
             <Link
-              href={`/questions/${question._id}`}
+              href={`/question/${question._id}`}
               key={question._id}
               className="flex cursor-pointer items-center justify-between gap-4 rounded-lg p-2 hover:bg-accent-foreground/10"
             >
