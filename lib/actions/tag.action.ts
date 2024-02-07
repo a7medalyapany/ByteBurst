@@ -34,7 +34,9 @@ export async function getTopUserTags(params: GetTopInteractedTagsParams) {
 export async function getAllTags(params: GetAllTagsParams) {
 	try {
 		connectToDatabase()
-		const { filter, searchQuery } = params;
+		const { filter, searchQuery , page = 1, pageSize = 10} = params;
+
+		const skip = (page - 1) * pageSize
 
 		const query: FilterQuery<typeof Tag> = {}
 
@@ -66,8 +68,14 @@ export async function getAllTags(params: GetAllTagsParams) {
 
 		const tags = await Tag.find(query)
 		.sort(filterOptions)
+		.skip(skip)
+		.limit(pageSize)
 
-		return { tags }
+		const totalTags = await Tag.countDocuments(query);
+
+		const isNext = totalTags > skip + tags.length;
+
+		return { tags, isNext  }
 	}
 	catch (error) {
 		console.error(error)
