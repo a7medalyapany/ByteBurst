@@ -12,6 +12,7 @@ const Page: FC<SearchParamsProps> = async ({
 }: SearchParamsProps) => {
   const result = await getAllUsers({
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <>

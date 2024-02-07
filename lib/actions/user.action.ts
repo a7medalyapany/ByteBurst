@@ -84,7 +84,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
 	try {
 		connectToDatabase()
 
-		const { searchQuery } = params;
+		const { filter, searchQuery } = params;
 		const query: FilterQuery<typeof User> = {}
 
 		if (searchQuery) {
@@ -94,8 +94,24 @@ export async function getAllUsers(params: GetAllUsersParams) {
 			]
 		}
 
+		let filterOptions = {};
+
+		switch (filter) {
+			case 'new_users':
+				filterOptions = { joinedAt: -1 }
+				break;
+			case 'old_users':
+				filterOptions = { joinedAt: 1 }
+				break;
+			case 'top_contributors':
+				filterOptions = { reputation: -1 }
+				break;
+			default:
+				break;
+		}
+
 		const users = await User.find(query)	
-		.sort({ createdAt: -1 })
+		.sort(filterOptions)
 
 		return { users }
 	}
