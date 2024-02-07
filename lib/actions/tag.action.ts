@@ -34,7 +34,7 @@ export async function getTopUserTags(params: GetTopInteractedTagsParams) {
 export async function getAllTags(params: GetAllTagsParams) {
 	try {
 		connectToDatabase()
-		const { searchQuery } = params;
+		const { filter, searchQuery } = params;
 
 		const query: FilterQuery<typeof Tag> = {}
 
@@ -44,7 +44,28 @@ export async function getAllTags(params: GetAllTagsParams) {
 			]
 		}
 
+		let filterOptions = {}
+
+		switch (filter) {
+			case 'popular':
+				filterOptions = { questions: -1 }
+				break;
+			case 'recent':
+				filterOptions = { createdAt: -1 }
+				break;
+			case 'name':
+				filterOptions = { name: 1 }
+				break;
+			case 'old':
+				filterOptions = { createdAt: 1 }
+				break;
+			default:
+				break;
+		}
+
+
 		const tags = await Tag.find(query)
+		.sort(filterOptions)
 
 		return { tags }
 	}
