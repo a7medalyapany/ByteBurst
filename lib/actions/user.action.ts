@@ -162,7 +162,9 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 	try {
 		connectToDatabase()
 
-		const { clerkId, filter, searchQuery } = params;
+		const { clerkId, filter, searchQuery, page = 1, pageSize = 20 } = params;
+
+		const skipAmount = (page - 1) * pageSize
 
 		const query: FilterQuery<typeof Question> = {}
 
@@ -200,6 +202,8 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 			match: query,
 			options: {
 				sort: filterOptions,
+				skip: skipAmount,
+				limit: pageSize + 1
 			},
 			populate: [
 				{
@@ -221,7 +225,9 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 
 		const savedQuestions = user.saved;
 
-		return { questions: savedQuestions } 
+		const isNext = user.saved.length > pageSize;
+
+		return { questions: savedQuestions, isNext } 
 	}
 	catch (error) {
 		console.error(error)
