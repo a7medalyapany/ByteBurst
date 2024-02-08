@@ -8,11 +8,8 @@ interface pageProps {}
 
 const page: FC<pageProps> = async () => {
   const { userId } = auth();
-
   if (!userId) redirect("/login");
-
   const mongoUser = await getUserById({ userId });
-  console.log(mongoUser);
   return (
     <div>
       <h1 className="h1-bold">Ask a question</h1>
