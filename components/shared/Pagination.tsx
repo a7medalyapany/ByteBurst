@@ -1,8 +1,9 @@
 "use client";
 import { FC } from "react";
-import { Button } from "../ui/button";
-import { formUrlQuery } from "@/lib/utils";
+import { Button, buttonVariants } from "../ui/button";
+import { cn, formUrlQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationProps {
   pageNumber: number;
@@ -31,21 +32,33 @@ const Pagination: FC<PaginationProps> = ({ pageNumber, isNext }) => {
   return (
     <div className="flex w-full items-center justify-center gap-1">
       <Button
+        variant={"ghost"}
         disabled={pageNumber === 1}
         onClick={() => handleNavigation("prev")}
-        className="flex min-h-[36px] w-fit items-center justify-center gap-2 rounded-lg border bg-accent-foreground/80"
+        className="gap-1 pl-2.5"
       >
+        <ChevronLeft className="size-4" />
+
         <p className="body-medium">Prev</p>
       </Button>
-      <div className="flex items-center justify-center rounded-md bg-accent-foreground/50 px-3.5 py-2">
-        <p className="body-semibold">{pageNumber}</p>
-      </div>
+      <p
+        className={cn(
+          buttonVariants({
+            variant: "outline",
+          }),
+          "body-semibold rounded-lg"
+        )}
+      >
+        {pageNumber}
+      </p>
       <Button
+        variant={"ghost"}
         disabled={!isNext}
         onClick={() => handleNavigation("next")}
-        className="flex min-h-[36px] w-fit items-center justify-center gap-2 rounded-lg border bg-accent-foreground/80"
+        className="gap-1 pr-2.5"
       >
         <p className="body-medium">Next</p>
+        <ChevronRight className="size-4" />
       </Button>
     </div>
   );

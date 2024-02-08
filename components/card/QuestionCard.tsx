@@ -77,27 +77,29 @@ const QuestionCard: FC<QuestionCardProps> = ({
           title={`- asked ${getTimeStamp(createdAt)}`}
           textStyle="body-medium text-muted-foreground"
         />
-        <Metric
-          imgUrl="/assets/icons/like.svg"
-          alt="Upvotes"
-          value={formatNumber(upvotes)}
-          title="Votes"
-          textStyle="small-medium text-muted-foreground"
-        />
-        <Metric
-          imgUrl="/assets/icons/message.svg"
-          alt="Messages"
-          value={formatNumber(answers.length)}
-          title="Answers"
-          textStyle="small-medium text-muted-foreground"
-        />
-        <Metric
-          imgUrl="/assets/icons/eye.svg"
-          alt="eye "
-          value={formatNumber(views)}
-          title="Views"
-          textStyle="small-medium text-muted-foreground"
-        />
+        <div className="flex items-center gap-3 max-sm:flex-wrap max-sm:justify-start">
+          <Metric
+            imgUrl="/assets/icons/like.svg"
+            alt="Upvotes"
+            value={formatNumber(upvotes)}
+            title="Votes"
+            textStyle="small-medium text-muted-foreground"
+          />
+          <Metric
+            imgUrl="/assets/icons/message.svg"
+            alt="Messages"
+            value={formatNumber(answers.length)}
+            title="Answers"
+            textStyle="small-medium text-muted-foreground"
+          />
+          <Metric
+            imgUrl="/assets/icons/eye.svg"
+            alt="eye "
+            value={formatNumber(views)}
+            title="Views"
+            textStyle="small-medium text-muted-foreground"
+          />
+        </div>
       </div>
     </div>
   );

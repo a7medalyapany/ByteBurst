@@ -42,38 +42,36 @@ const AllAnswers: FC<AllAnswersProps> = async ({
             key={answer._id}
             className="mb-1 rounded-lg bg-card-foreground/50 p-5"
           >
-            <div className="flex items-center justify-between">
-              <div className="mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
-                <Link
-                  href={`/profile/${answer.author.clerkId}`}
-                  className="flex flex-1 items-start gap-1 sm:items-center"
-                >
-                  <Image
-                    src={answer.author.picture}
-                    width={18}
-                    height={18}
-                    alt="profile picture"
-                    className="rounded-full object-cover max-sm:mt-0.5"
-                  />
-                  <div className="flex flex-col  sm:flex-row sm:items-center">
-                    <p className="body-semibold">{answer.author.name}</p>
+            <div className="mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
+              <Link
+                href={`/profile/${answer.author.clerkId}`}
+                className="flex flex-1 items-start gap-1 sm:items-center"
+              >
+                <Image
+                  src={answer.author.picture}
+                  width={18}
+                  height={18}
+                  alt="profile picture"
+                  className="rounded-full object-cover max-sm:mt-0.5"
+                />
+                <div className="flex flex-col  sm:flex-row sm:items-center">
+                  <p className="body-semibold">{answer.author.name}</p>
 
-                    <p className="small-regular ml-0.5 mt-0.5 line-clamp-1">
-                      answered {getTimeStamp(answer.createdAt)}
-                    </p>
-                  </div>
-                </Link>
-                <div className="flex justify-end">
-                  <Votes
-                    type="answer"
-                    itemId={JSON.stringify(answer._id)}
-                    userId={JSON.stringify(userId)}
-                    upvotes={answer.upvotes.length}
-                    hasupVoted={answer.upvotes.includes(userId)}
-                    downvotes={answer.downvotes.length}
-                    hasdownVoted={answer.downvotes.includes(userId)}
-                  />
+                  <p className="small-regular ml-0.5 mt-0.5 line-clamp-1">
+                    answered {getTimeStamp(answer.createdAt)}
+                  </p>
                 </div>
+              </Link>
+              <div className="flex justify-end">
+                <Votes
+                  type="answer"
+                  itemId={JSON.stringify(answer._id)}
+                  userId={JSON.stringify(userId)}
+                  upvotes={answer.upvotes.length}
+                  hasupVoted={answer.upvotes.includes(userId)}
+                  downvotes={answer.downvotes.length}
+                  hasdownVoted={answer.downvotes.includes(userId)}
+                />
               </div>
             </div>
             <ParseHTML data={answer.content} />

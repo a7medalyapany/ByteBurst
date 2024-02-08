@@ -100,7 +100,6 @@ const Question: FC<QuestionProps> = ({
     form.setValue("tags", newTags);
   };
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
@@ -110,7 +109,6 @@ const Question: FC<QuestionProps> = ({
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     setisSubmitting(true);
 
@@ -210,17 +208,13 @@ const Question: FC<QuestionProps> = ({
                 <span className="text-red-500"> *</span>
               </FormLabel>
               <FormControl className="mt-3.5">
-                <>
-                  <Input
-                    disabled={type === "Edit"}
-                    className="paragraph-regular min-h-[56px] border bg-accent"
-                    placeholder="e.g. react, typescript, javascript and press Enter to add the tag"
-                    onKeyDown={(e) => {
-                      handleInputKeyDown(e, field);
-                    }}
-                  />
+                <div
+                  className={
+                    "flex min-h-[56px] grow items-center gap-4 rounded-lg bg-muted px-4"
+                  }
+                >
                   {field.value.length > 0 && (
-                    <div className="flex-start mt-2.5 gap-2.5">
+                    <div className="flex-start gap-2.5">
                       {field.value.map((tag: any) => (
                         <Badge
                           key={tag}
@@ -229,7 +223,7 @@ const Question: FC<QuestionProps> = ({
                               ? handleTagRemove(tag, field)
                               : () => {}
                           }
-                          className="subtle-medium flex items-center justify-center gap-2 rounded-md border-none bg-muted/50 px-4 py-2 capitalize text-foreground"
+                          className="body-semibold flex h-8 w-fit items-center justify-center gap-2 truncate rounded-lg border-none bg-card capitalize text-foreground"
                         >
                           {tag}
                           {type !== "Edit" && (
@@ -245,7 +239,15 @@ const Question: FC<QuestionProps> = ({
                       ))}
                     </div>
                   )}
-                </>
+                  <Input
+                    disabled={type === "Edit"}
+                    className="paragraph-regular min-h-[56px] border-none bg-transparent"
+                    placeholder="Press Enter to add the tag"
+                    onKeyDown={(e) => {
+                      handleInputKeyDown(e, field);
+                    }}
+                  />
+                </div>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-muted-foreground">
                 Add up to 3 tags to describe what your question is about.

@@ -55,7 +55,11 @@ const Filters: FC<FiltersProps> = ({
         <SelectContent>
           <SelectGroup>
             {filters.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                className="cursor-pointer"
+              >
                 {item.name}
               </SelectItem>
             ))}
