@@ -11,7 +11,6 @@ export const connectToDatabase = async () => {
 	}
 
 	if (isConnected) {
-		console.log('MongoDB is connected');
 		return;
 	}
 
@@ -20,7 +19,6 @@ export const connectToDatabase = async () => {
 			dbName: 'ByteBurst',
 		});
 		isConnected = true;
-		console.log('connected to database');
 	} catch (error) {
 		console.log('error connecting to database:', error);
 	}

@@ -37,7 +37,6 @@ export async function viewQuestion(params: ViewQuestionParams) {
     }
 }
 
-
 // export async function viewQuestion(params: ViewQuestionParams) {
 //     try {
 //         connectToDatabase();

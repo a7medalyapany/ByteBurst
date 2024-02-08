@@ -368,15 +368,4 @@ export async function getUserDataByQuestionId(questionId: string): Promise<IUser
 	}
 }
 
-// export async function getAllUsers(params: GetAllUsersParams) {
-// 	try {
-// 		connectToDatabase()
-
-		
-// 	}
-// 	catch (error) {
-// 		console.error(error)
-// 		throw error
-// 	}
-// }
 		

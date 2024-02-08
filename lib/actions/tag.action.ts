@@ -150,14 +150,3 @@ export async function getPopularTags() {
 		throw error
 	}
 }
-
-// export async function getAllTags(params: any) {
-// 	try {
-// 		connectToDatabase()
-
-// 	}
-// 	catch (error) {
-// 		console.error(error)
-// 		throw error
-// 	}
-// }

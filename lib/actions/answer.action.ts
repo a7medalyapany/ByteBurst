@@ -184,14 +184,3 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
 		throw error
 	}
 }
-
-// export async function name(params: any) {
-// 	try {
-	// connectToDatabase()
-
-		
-// 	} catch (error) {
-// 		console.error(error)
-// 		throw error
-// 	}
-// }
