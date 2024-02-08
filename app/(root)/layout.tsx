@@ -1,6 +1,7 @@
 import LeftSidebar from "@/components/shared/LeftSidebar";
 import RightSidebar from "@/components/shared/RightSidebar";
 import Navbar from "@/components/shared/navbar/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 import React, { FC } from "react";
 
 interface layoutProps {
@@ -18,7 +19,8 @@ const layout: FC<layoutProps> = ({ children }) => {
         </section>
         <RightSidebar />
       </div>
-      Toaster
+
+      <Toaster />
     </main>
   );
 };
