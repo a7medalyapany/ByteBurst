@@ -44,8 +44,8 @@ params: { id: string };
 searchParams: { [key: string]: string | undefined };
 }
 export interface BadgeCounts {
+DIAMOND: number;
 GOLD: number;
 SILVER: number;
-BRONZE: number;
 }
 export type BadgeCriteriaType = keyof typeof BADGE_CRITERIA;

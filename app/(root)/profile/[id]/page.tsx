@@ -79,7 +79,10 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
 
       <div className="my-8 border" />
 
-      <Stats />
+      <Stats
+        activeNow={userInfo.user.reputation}
+        badges={userInfo.badgeCounts}
+      />
 
       <Tabs defaultValue="top-posts" className="flex-1">
         <div className="flex flex-col-reverse gap-4 pt-6 sm:flex-row">

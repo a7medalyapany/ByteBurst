@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import { IUser } from "@/database/user.model";
+import { BADGE_CRITERIA } from "@/constants";
 
 export interface CreateAnswerParams {
 content: string;
@@ -166,4 +167,11 @@ value: string | null;
 export interface RemoveUrlQueryParams {
 params: string;
 keysToRemove: string[];
+}
+
+export interface BadgeParams {
+criteria: {
+		type: keyof typeof BADGE_CRITERIA;
+		count: number;
+	}[];
 }

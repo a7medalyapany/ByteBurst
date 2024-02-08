@@ -1,10 +1,15 @@
 import { FC } from "react";
 import { BadgeCheckIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BadgeCounts } from "@/types";
+import { formatNumber } from "@/lib/utils";
 
-interface StatsProps {}
+interface StatsProps {
+  badges: BadgeCounts;
+  activeNow: number;
+}
 
-const Stats: FC<StatsProps> = () => {
+const Stats: FC<StatsProps> = ({ activeNow, badges }) => {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
       <Card>
@@ -13,7 +18,9 @@ const Stats: FC<StatsProps> = () => {
           <BadgeCheckIcon strokeWidth={1.5} fill="#C0C0C0" />
         </CardHeader>
         <CardContent>
-          <div className="line-clamp-1 text-2xl font-bold">$45,23.89</div>
+          <div className="line-clamp-1 text-2xl font-bold">
+            {formatNumber(badges.SILVER)}
+          </div>
         </CardContent>
       </Card>
       <Card>
@@ -22,7 +29,7 @@ const Stats: FC<StatsProps> = () => {
           <BadgeCheckIcon strokeWidth={1.5} fill="#FFD700" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+2350</div>
+          <div className="text-2xl font-bold">{formatNumber(badges.GOLD)}</div>
         </CardContent>
       </Card>
       <Card>
@@ -31,7 +38,9 @@ const Stats: FC<StatsProps> = () => {
           <BadgeCheckIcon strokeWidth={1.5} fill="#1DA1F2" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+12,234</div>
+          <div className="text-2xl font-bold">
+            {formatNumber(badges.DIAMOND)}
+          </div>
         </CardContent>
       </Card>
       <Card>
@@ -51,7 +60,7 @@ const Stats: FC<StatsProps> = () => {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+573</div>
+          <div className="text-2xl font-bold">+{formatNumber(activeNow)}</div>
         </CardContent>
       </Card>
     </div>
