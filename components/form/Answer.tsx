@@ -11,20 +11,18 @@ import {
 import { useForm } from "react-hook-form";
 import { AnswerSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { Button } from "../ui/button";
 import { CreateAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import ReactQuill from "react-quill";
+import { SparklesIcon } from "lucide-react";
 
 interface AnswerProps {
   questionId: string;
   question: string;
   authorId: string;
 }
-
-const DynamicQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const Answer: FC<AnswerProps> = ({ question, questionId, authorId }) => {
   const [value, setValue] = useState("");
@@ -80,15 +78,11 @@ const Answer: FC<AnswerProps> = ({ question, questionId, authorId }) => {
           Your Answer <span className="text-red-500">*</span>
         </h4>
 
-        <Button className="mt-1 gap-1.5 rounded-md border px-4 py-2.5 shadow-none">
-          <Image
-            src="/assets/icons/stars.svg"
-            alt="star"
-            width={12}
-            height={12}
-            className="object-contain"
-            onClick={() => {}}
-          />
+        <Button
+          className="mt-1 gap-1.5 rounded-md border px-4 py-2.5 shadow-none"
+          disabled
+        >
+          <SparklesIcon size={12} />
           Generate an AI answer
         </Button>
       </div>
@@ -105,7 +99,7 @@ const Answer: FC<AnswerProps> = ({ question, questionId, authorId }) => {
               <FormItem className="flex w-full flex-col gap-3">
                 <FormControl className="mt-3.5">
                   <div className="h-[250px] overflow-hidden bg-transparent">
-                    <DynamicQuill
+                    <ReactQuill
                       theme="snow"
                       value={value}
                       modules={{ toolbar: toolbarOptions }}
