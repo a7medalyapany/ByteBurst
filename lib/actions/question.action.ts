@@ -49,7 +49,7 @@ export async function getQuestions(params: GetQuestionsParams) {
 	try {
  		connectToDatabase()
 
-		const { filter, searchQuery, page = 1, pageSize = 2 } = params
+		const { filter, searchQuery, page = 1, pageSize = 20 } = params
 
 		const skip = (page - 1) * pageSize
 
