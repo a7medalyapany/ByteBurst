@@ -25,18 +25,20 @@ import "prismjs/components/prism-sql";
 import "prismjs/components/prism-mongodb";
 import "prismjs/plugins/line-numbers/prism-line-numbers.js";
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import { cn } from "@/lib/utils";
 
 interface ParseHTMLProps {
   data: string;
+  className?: string;
 }
 
-const ParseHTML: FC<ParseHTMLProps> = ({ data }) => {
+const ParseHTML: FC<ParseHTMLProps> = ({ data, className }) => {
   useEffect(() => {
     Prism.highlightAll();
   }, []);
 
   return (
-    <div className="rounded-lg bg-muted p-2 dark:bg-muted/50">
+    <div className={cn("rounded-lg p-2 bg-muted dark:bg-muted/50", className)}>
       {parse(data)}
     </div>
   );
