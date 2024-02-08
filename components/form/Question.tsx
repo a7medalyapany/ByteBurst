@@ -254,7 +254,7 @@ const Question: FC<QuestionProps> = ({
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-fit" disabled={isSubmitting}>
+        <Button type="submit" className="ml-auto w-fit" disabled={isSubmitting}>
           {isSubmitting ? (
             <>{type === "Edit" ? "Updating..." : "Posting..."}</>
           ) : (
