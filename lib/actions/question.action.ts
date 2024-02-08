@@ -35,8 +35,14 @@ export async function createQuestion(params: CreateQuestionParams) {
 
 		await Question.findByIdAndUpdate(question._id, { $push: { tags: { $each: tagDocuments} }})
 
-		// create an interaction record
-		// implement the reputation system here as well
+		await Interaction.create({ 
+			user: author,
+			question: question._id,
+			action: 'ask_question',
+			tags: tagDocuments,
+		 })
+
+		await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } })
 
 		revalidatePath(path)
 	} catch (error) {
@@ -138,7 +144,9 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
 			throw new Error('Question not found')
 		}
 
-		// TODO: create an interaction record
+		await User.findByIdAndUpdate(userId, { $inc: { reputation: hasupVoted ? -1 : 1 } })
+
+		await User.findByIdAndUpdate(question.author, { $inc: { reputation: hasupVoted ? -10 : 10 } })
 
 		revalidatePath(path)
 	} catch (error) {
@@ -173,7 +181,11 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
 			throw new Error('Question not found')
 		}
 
-		// TODO: create an interaction record
+		await User.findByIdAndUpdate(userId,
+			{ $inc: { reputation: hasdownVoted ? -3 : 3 } })
+
+		await User.findByIdAndUpdate(question.author,
+			{ $inc: { reputation: hasdownVoted ? -10 : 10 } })
 
 		revalidatePath(path)
 	} catch (error) {
