@@ -10,6 +10,7 @@ import {
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 import { saveQuestion } from "@/lib/actions/user.action";
 import { viewQuestion } from "@/lib/actions/interaction.action";
+import { useToast } from "../ui/use-toast";
 
 interface VotesProps {
   type: string;
@@ -34,6 +35,7 @@ const Votes: FC<VotesProps> = ({
 }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleSave = async () => {
     await saveQuestion({
@@ -41,10 +43,21 @@ const Votes: FC<VotesProps> = ({
       questionId: JSON.parse(itemId),
       path: pathname,
     });
+    return toast({
+      title: `Question ${
+        !hasSaved ? "Saved in" : "Removed from"
+      } your collection`,
+      variant: !hasSaved ? "default" : "destructive",
+    });
   };
 
   const handleVote = async (voteType: string) => {
-    if (!userId) return;
+    if (!userId) {
+      return toast({
+        title: "You need to be logged in",
+        description: "Please login to vote on this question",
+      });
+    }
 
     if (voteType === "upvote") {
       if (type === "question") {
@@ -64,8 +77,10 @@ const Votes: FC<VotesProps> = ({
           path: pathname,
         });
       }
-      // TODO - handle TOAST
-      return;
+      return toast({
+        title: `Upvote ${!hasupVoted ? "Successful" : "Removed"}`,
+        variant: !hasupVoted ? "default" : "destructive",
+      });
     }
 
     if (voteType === "downvote") {
@@ -86,7 +101,10 @@ const Votes: FC<VotesProps> = ({
           path: pathname,
         });
       }
-      // TODO - handle TOAST
+      return toast({
+        title: `Downvote ${!hasdownVoted ? "Successful" : "Removed"}`,
+        variant: !hasdownVoted ? "default" : "destructive",
+      });
     }
   };
 
