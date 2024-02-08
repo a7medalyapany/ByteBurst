@@ -34,9 +34,9 @@ label: "Ask a question",
 ];
 export const BADGE_CRITERIA = {
 QUESTION_COUNT: {
-SILVER: 10,
-GOLD: 50,
-DIAMOND: 100,
+	SILVER: 10,
+	GOLD: 50,
+	DIAMOND: 100,
 },
 ANSWER_COUNT: {
 	SILVER: 10,
