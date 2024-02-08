@@ -28,7 +28,6 @@ const AnswerTab: FC<AnswerTabProps> = async ({
           question={answer.question}
           author={answer.author}
           content={answer.content}
-          upvotes={answer.upvotes.length}
           createdAt={answer.createdAt}
         />
       ))}

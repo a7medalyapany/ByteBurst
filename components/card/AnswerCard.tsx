@@ -21,7 +21,6 @@ interface AnswerCardProps {
     picture: string;
   };
   content: string;
-  upvotes: number;
   createdAt: Date;
 }
 
@@ -59,7 +58,6 @@ const AnswerCard: FC<AnswerCardProps> = async ({
           </div>
         </div>
 
-        {/* To Do */}
         <div className="mt-2">
           <div className="mb-2 flex justify-start">
             <Link
