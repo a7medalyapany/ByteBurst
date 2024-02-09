@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { URLProps } from "@/types";
-import { getUserInfo } from "@/lib/actions/user.action";
+import { getUserById, getUserInfo } from "@/lib/actions/user.action";
 import Image from "next/image";
 import { SignedIn, auth } from "@clerk/nextjs";
 import Link from "next/link";
@@ -11,10 +11,17 @@ import Stats from "@/components/shared/profile/Stats";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import QuestionTab from "@/components/shared/profile/QuestionTab";
 import AnswerTab from "@/components/shared/profile/AnswerTab";
+import FollowButton from "@/components/shared/profile/FollowButton";
+import { checkIsFollowing } from "@/lib/actions/follow.action";
 
 const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
   const { userId: clerkId } = auth();
+  const currentUserID = await getUserById({ userId: clerkId! });
+  const isUserFollowing = await checkIsFollowing({
+    userId: currentUserID._id,
+    targetUserId: userInfo.user._id,
+  });
 
   return (
     <>
@@ -66,12 +73,11 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
         <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
           <SignedIn>
             {clerkId !== userInfo.user.clerkId && (
-              <Button
-                variant={"outline"}
-                className="paragraph-medium min-w-[120px] rounded-3xl px-4 py-3"
-              >
-                follow
-              </Button>
+              <FollowButton
+                userId={JSON.stringify(currentUserID._id)}
+                targetUserId={JSON.stringify(userInfo.user._id)}
+                Following={isUserFollowing}
+              />
             )}
           </SignedIn>
         </div>

@@ -153,6 +153,11 @@ export interface DeleteUserParams {
 clerkId: string;
 }
 
+export interface FollowUserParams {
+	userId: string;
+	targetUserId: string;
+}
+
 export interface UrlQueryParams {
 params: string;
 key: string;

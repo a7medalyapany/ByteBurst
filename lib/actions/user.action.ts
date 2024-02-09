@@ -2,7 +2,6 @@
 
 import User, { IUser } from "@/database/user.model";
 import { connectToDatabase } from "../mongoose"
-import { CreateUserParams, DeleteUserParams, GetAllUsersParams, GetSavedQuestionsParams, GetUserByIdParams, GetUserStatsParams, ToggleSaveQuestionParams, UpdateUserParams } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
 import { FilterQuery } from "mongoose";
@@ -10,6 +9,16 @@ import Tag from "@/database/tag.model";
 import Answer from "@/database/answer.model";
 import { BadgeCriteriaType } from "@/types";
 import { assignBadges } from "../utils";
+import
+{ 
+	CreateUserParams,
+	DeleteUserParams,
+	GetAllUsersParams,
+	GetSavedQuestionsParams,
+	GetUserByIdParams,
+	GetUserStatsParams,
+	ToggleSaveQuestionParams,
+	UpdateUserParams } from "./shared.types";
 
 export async function getUserById(params: GetUserByIdParams) {
 	try {
@@ -249,10 +258,9 @@ export async function getUserInfo(params: GetUserByIdParams) {
 			throw new Error('User not found')
 		}
 
-		const [totalQuestions, totalAnswers] = await Promise.all([
-            Question.countDocuments({ author: user._id }),
-            Answer.countDocuments({ author: user._id })
-        ]);
+		const totalQuestions = await Question.countDocuments({ author: user._id })
+
+		const totalAnswers = await Answer.countDocuments({ author: user._id })
 
 		const [questionUpvotes] = await Question.aggregate([
 			{ $match: { author: user._id } },
@@ -344,6 +352,8 @@ export async function getUserAnswers(params: GetUserStatsParams) {
 
 export async function getUserDataByQuestionId(questionId: string): Promise<IUser | null> {
 	try {
+		connectToDatabase()
+		
 	  const question = await Question
 		.findById(questionId)
 		.populate('author', 'clerkId name username email bio picture location portfolio reputation saved joinedAt');
@@ -367,5 +377,3 @@ export async function getUserDataByQuestionId(questionId: string): Promise<IUser
 		throw error
 	}
 }
-
-		
