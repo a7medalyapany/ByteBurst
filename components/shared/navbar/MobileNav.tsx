@@ -13,6 +13,7 @@ import { SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { sidebarLinks } from "@/constants";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const NavContent = () => {
   const pathname = usePathname();
@@ -51,6 +52,7 @@ const NavContent = () => {
 };
 
 const MobileNav = () => {
+  const mode = useTheme();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -64,12 +66,21 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent side={"left"} className="border-none">
         <Link href="/" className="flex items-center gap-1">
-          <Image
-            src="light-logo.svg"
-            alt="ByteBurst Logo"
-            width={200}
-            height={200}
-          />
+          {mode.theme === "dark" ? (
+            <Image
+              src="light-logo.svg"
+              alt="ByteBurst Logo"
+              width={200}
+              height={200}
+            />
+          ) : (
+            <Image
+              src="dark-logo.svg"
+              alt="ByteBurst Logo"
+              width={200}
+              height={200}
+            />
+          )}
         </Link>
         <div>
           <SheetClose asChild>
