@@ -12,7 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import QuestionTab from "@/components/shared/profile/QuestionTab";
 import AnswerTab from "@/components/shared/profile/AnswerTab";
 import FollowButton from "@/components/shared/profile/FollowButton";
-import { checkIsFollowing } from "@/lib/actions/follow.action";
+import { checkIsFollowing, getFollowCount } from "@/lib/actions/follow.action";
+import FollowersCounter from "@/components/shared/profile/FollowersCounter";
 
 const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
@@ -22,6 +23,8 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
     userId: currentUserID._id,
     targetUserId: userInfo.user._id,
   });
+
+  const { followers, following } = await getFollowCount(userInfo.user._id);
 
   return (
     <>
@@ -65,12 +68,15 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
               />
             </div>
 
+            <FollowersCounter followers={followers} following={following} />
+
             {userInfo.user.bio && (
               <p className="paragraph-regular mt-8">{userInfo.user.bio}</p>
             )}
           </div>
         </div>
-        <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
+
+        <div className="flex flex-col items-end justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
           <SignedIn>
             {clerkId !== userInfo.user.clerkId && (
               <FollowButton

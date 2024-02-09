@@ -22,9 +22,6 @@ export async function followUser(params: FollowUserParams){
     
         await Follow.create({ follower: userId, following: targetUserId });
         
-        const followerCount = await Follow.countDocuments({ following: targetUserId });
-		
-        return { followerCount };
     } catch (error) {
         console.error('Error following user:', error);
         throw error;
@@ -44,9 +41,6 @@ export async function unfollowUser(params: FollowUserParams){
     
         await Follow.deleteOne({ follower: userId, following: targetUserId });
         
-
-        const followerCount = await Follow.countDocuments({ following: targetUserId });
-		return { followerCount };
     } catch (error) {
         console.error('Error unfollowing user:', error);
         throw error;
@@ -69,5 +63,17 @@ export async function checkIsFollowing(params: FollowUserParams): Promise<boolea
     } catch (error) {
         console.error('An error occurred while checking follow status:', error);
         throw error;
+    }
+}
+
+export async function getFollowCount(userId: any) {
+    try {
+        connectToDatabase();
+
+        const followerCount = await Follow.countDocuments({ following: userId });
+        const followingCount = await Follow.countDocuments({ follower: userId });
+        return { followers: followerCount, following: followingCount };
+    } catch (error: any) {
+        throw new Error('Error getting follow count: ' + error.message);
     }
 }

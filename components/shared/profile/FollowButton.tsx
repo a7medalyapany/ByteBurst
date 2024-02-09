@@ -21,20 +21,10 @@ const FollowButton: FC<FollowButtonProps> = ({
   const handleFollowToggle = async () => {
     try {
       if (isFollowing) {
-        const { followerCount } = await unfollowUser({
-          userId: currentUser,
-          targetUserId: targetUser,
-        });
-
-        console.log(followerCount);
+        await unfollowUser({ userId: currentUser, targetUserId: targetUser });
         setIsFollowing(false);
       } else {
-        const followerCount = await followUser({
-          userId: currentUser,
-          targetUserId: targetUser,
-        });
-
-        console.log(followerCount);
+        await followUser({ userId: currentUser, targetUserId: targetUser });
         setIsFollowing(true);
       }
     } catch (error) {
