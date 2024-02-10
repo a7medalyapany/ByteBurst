@@ -19,18 +19,11 @@ const NoResult: FC<NoResultProps> = ({
   return (
     <div className="mt-10 flex w-full flex-col items-center justify-center">
       <Image
-        src="/assets/images/light-illustration.png"
+        src="/assets/images/NoResult.png"
         alt="No result found"
         width={270}
         height={200}
-        className="block object-contain dark:hidden"
-      />
-      <Image
-        src="/assets/images/dark-illustration.png"
-        alt="No result found"
-        width={270}
-        height={200}
-        className="hidden object-contain dark:flex"
+        className="object-contain"
       />
 
       <h2 className="h2-bold mt-8">{title}</h2>
