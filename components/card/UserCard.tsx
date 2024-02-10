@@ -1,13 +1,12 @@
 import { FC } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { getTopUserTags } from "@/lib/actions/tag.action";
-import { Badge } from "../ui/badge";
 import Tag from "../shared/Tag";
 import { auth } from "@clerk/nextjs";
 import FollowButton from "../shared/profile/FollowButton";
 import { getUserById } from "@/lib/actions/user.action";
 import { checkIsFollowing, getFollowCount } from "@/lib/actions/follow.action";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface UserCardProps {
   user: {
@@ -36,13 +35,10 @@ const UserCard: FC<UserCardProps> = async ({ user }) => {
           href={`/profile/${user.clerkId}`}
           className="mb-4 size-16 rounded-full sm:mr-4"
         >
-          <Image
-            src={user.picture}
-            alt={user.name}
-            width={100}
-            height={100}
-            className="mt-2 rounded-full"
-          />
+          <Avatar className="mt-2 size-[4rem]">
+            <AvatarImage src={user.picture} />
+            <AvatarFallback>{user.name}</AvatarFallback>
+          </Avatar>
         </Link>
         <div className="flex flex-col">
           <h2 className="mb-1 text-lg font-bold text-foreground sm:mb-0">
@@ -72,29 +68,30 @@ const UserCard: FC<UserCardProps> = async ({ user }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 sm:ml-auto">
+        <div className="flex flex-col gap-2 sm:ml-auto sm:items-end sm:justify-end">
           {user.clerkId !== clerkId && (
             <FollowButton
               userId={JSON.stringify(currentUserID._id)}
               targetUserId={JSON.stringify(user._id)}
               Following={isUserFollowing}
+              className="mt-1 w-auto sm:w-auto"
             />
           )}
           <div>
-            {interactedTags.length > 0 ? (
-              <div className="mt-1 flex justify-center gap-2 sm:mt-1">
-                {interactedTags.map((tag) => (
-                  <Tag
-                    key={tag._id}
-                    _id={tag._id}
-                    name={tag.name}
-                    className="rounded-3xl bg-accent/90 text-card-foreground"
-                  />
-                ))}
-              </div>
-            ) : (
-              <Badge>No tags</Badge>
-            )}
+            <div>
+              {interactedTags.length > 0 && (
+                <div className="mt-1 flex justify-center gap-2 sm:mt-1">
+                  {interactedTags.map((tag) => (
+                    <Tag
+                      key={tag._id}
+                      _id={tag._id}
+                      name={tag.name}
+                      className="rounded-3xl bg-accent/90 text-card-foreground"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
