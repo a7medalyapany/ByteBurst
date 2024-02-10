@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import { FollowUserParams } from "@/lib/actions/shared.types";
 import { Button } from "@/components/ui/button";
 import { followUser, unfollowUser } from "@/lib/actions/follow.action";
+import { usePathname } from "next/navigation";
 
 interface FollowButtonProps extends FollowUserParams {
   Following: boolean;
@@ -13,6 +14,7 @@ const FollowButton: FC<FollowButtonProps> = ({
   targetUserId,
   Following,
 }) => {
+  const pathname = usePathname();
   const [isFollowing, setIsFollowing] = useState<boolean>(Following);
 
   const currentUser = JSON.parse(userId);
@@ -21,10 +23,18 @@ const FollowButton: FC<FollowButtonProps> = ({
   const handleFollowToggle = async () => {
     try {
       if (isFollowing) {
-        await unfollowUser({ userId: currentUser, targetUserId: targetUser });
+        await unfollowUser({
+          userId: currentUser,
+          targetUserId: targetUser,
+          path: pathname,
+        });
         setIsFollowing(false);
       } else {
-        await followUser({ userId: currentUser, targetUserId: targetUser });
+        await followUser({
+          userId: currentUser,
+          targetUserId: targetUser,
+          path: pathname,
+        });
         setIsFollowing(true);
       }
     } catch (error) {

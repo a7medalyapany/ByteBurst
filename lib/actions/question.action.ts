@@ -124,19 +124,19 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
 
 		const { questionId, userId, hasupVoted, hasdownVoted, path } = params
 
-		let updateQuesry = {}
+		let updateQuery = {}
 
 		if (hasupVoted) {
-			updateQuesry = { $pull: { upvotes: userId } }
+			updateQuery = { $pull: { upvotes: userId } }
 		} else if (hasdownVoted) {
-			updateQuesry = { $pull: { downvotes: userId}, $push: { upvotes: userId } }
+			updateQuery = { $pull: { downvotes: userId}, $push: { upvotes: userId } }
 		} else {
-			updateQuesry = { $addToSet: { upvotes: userId } }
+			updateQuery = { $addToSet: { upvotes: userId } }
 		}
 
 		const question = await Question.findByIdAndUpdate(
 			questionId,
-			updateQuesry,
+			updateQuery,
 			{ new: true }
 		)
 

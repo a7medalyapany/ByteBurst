@@ -3,13 +3,14 @@
 import Follow from "@/database/follow.model";
 import { connectToDatabase } from "../mongoose";
 import { FollowUserParams } from "./shared.types";
+import { revalidatePath } from "next/cache";
 
 
 export async function followUser(params: FollowUserParams){
     try {
 		connectToDatabase()
 
-        const { userId, targetUserId } = params;
+        const { userId, targetUserId, path } = params;
 
         if (userId === targetUserId) {
             throw new Error('Cannot follow yourself');
@@ -21,6 +22,8 @@ export async function followUser(params: FollowUserParams){
         }
     
         await Follow.create({ follower: userId, following: targetUserId });
+
+        revalidatePath(path);
         
     } catch (error) {
         console.error('Error following user:', error);
@@ -32,7 +35,7 @@ export async function unfollowUser(params: FollowUserParams){
     try {
 		connectToDatabase()
 
-        const { userId, targetUserId } = params;
+        const { userId, targetUserId, path } = params;
 
         const existingFollow = await Follow.findOne({ follower: userId, following: targetUserId });
         if (!existingFollow) {
@@ -40,6 +43,8 @@ export async function unfollowUser(params: FollowUserParams){
         }
     
         await Follow.deleteOne({ follower: userId, following: targetUserId });
+
+        revalidatePath(path);
         
     } catch (error) {
         console.error('Error unfollowing user:', error);

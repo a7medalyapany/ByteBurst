@@ -156,6 +156,7 @@ clerkId: string;
 export interface FollowUserParams {
 	userId: string;
 	targetUserId: string;
+	path: string;
 }
 
 export interface UrlQueryParams {
