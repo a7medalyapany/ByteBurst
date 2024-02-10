@@ -23,8 +23,7 @@ export async function followUser(params: FollowUserParams){
     
         await Follow.create({ follower: userId, following: targetUserId });
 
-        revalidatePath(path);
-        
+        if (path) revalidatePath(path);        
     } catch (error) {
         console.error('Error following user:', error);
         throw error;
@@ -44,8 +43,7 @@ export async function unfollowUser(params: FollowUserParams){
     
         await Follow.deleteOne({ follower: userId, following: targetUserId });
 
-        revalidatePath(path);
-        
+        if (path) revalidatePath(path);
     } catch (error) {
         console.error('Error unfollowing user:', error);
         throw error;

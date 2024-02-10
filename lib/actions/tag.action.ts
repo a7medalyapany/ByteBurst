@@ -6,29 +6,42 @@ import { GetAllTagsParams, GetQuestionsByTagIdParams, GetTopInteractedTagsParams
 import Tag, { ITag } from "@/database/tag.model";
 import { FilterQuery } from "mongoose";
 import Question from "@/database/question.model";
+import Interaction from "@/database/interaction.model";
 
 export async function getTopUserTags(params: GetTopInteractedTagsParams) {
-	try {
-		connectToDatabase()
+  try {
+    const { userId } = params;
 
-		const { userId } = params;
-		// const { userId, limit = 3 } = params;
+    const userInteractions = await Interaction.find({ user: userId });
 
-		const user = await User.findById(userId);
+    const tagCounts: { [tagId: string]: number } = {};
 
-		if (!user) {
-			throw new Error('User not found')
-		}
+    userInteractions.forEach((interaction) => {
+      interaction.tags.forEach((tagId: string) => {
+        if (tagCounts[tagId]) {
+          tagCounts[tagId]++;
+        } else {
+          tagCounts[tagId] = 1;
+        }
+      });
+    });
 
-		// Todo: get top tags from user's interactions
-		// create a new model for user interactions
+    const sortedTags = Object.keys(tagCounts).sort(
+      (tagIdA, tagIdB) => tagCounts[tagIdB] - tagCounts[tagIdA]
+    );
 
-		return [ { _id: '1', name:'tag1' }, { _id: '2', name:'tag2' }, { _id: '3', name:'tag3' }]
-	}
-	catch (error) {
-		console.error(error)
-		throw error
-	}
+    const topTags = sortedTags.slice(0, 3);
+
+    const topTagDetails = await Tag.find({ _id: { $in: topTags } });
+
+    return topTagDetails.map((tag) => ({
+      _id: tag._id,
+      name: tag.name,
+    }));
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
 
 export async function getAllTags(params: GetAllTagsParams) {

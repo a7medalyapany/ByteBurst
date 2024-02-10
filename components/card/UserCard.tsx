@@ -4,8 +4,10 @@ import Image from "next/image";
 import { getTopUserTags } from "@/lib/actions/tag.action";
 import { Badge } from "../ui/badge";
 import Tag from "../shared/Tag";
-import { Button } from "../ui/button";
 import { auth } from "@clerk/nextjs";
+import FollowButton from "../shared/profile/FollowButton";
+import { getUserById } from "@/lib/actions/user.action";
+import { checkIsFollowing, getFollowCount } from "@/lib/actions/follow.action";
 
 interface UserCardProps {
   user: {
@@ -18,8 +20,14 @@ interface UserCardProps {
 }
 
 const UserCard: FC<UserCardProps> = async ({ user }) => {
-  const { userId } = auth();
+  const { userId: clerkId } = auth();
+  const currentUserID = await getUserById({ userId: clerkId! });
   const interactedTags = await getTopUserTags({ userId: user._id });
+  const isUserFollowing = await checkIsFollowing({
+    userId: currentUserID._id,
+    targetUserId: user._id,
+  });
+  const { followers, following } = await getFollowCount(user._id);
 
   return (
     <div className="w-full rounded-md border p-3 shadow-md">
@@ -48,25 +56,29 @@ const UserCard: FC<UserCardProps> = async ({ user }) => {
           </Link>
           <div className="sm:paragraph-regular mt-2 flex w-full justify-between space-x-3 text-sm sm:w-auto">
             <Link
-              href={`/followers/${user.clerkId}`}
+              // href={`/followers/${user.clerkId}`}
+              href="#"
               className="text-muted-foreground hover:text-foreground hover:underline"
             >
-              Followers: 10k
+              Followers: {followers}
             </Link>
             <Link
-              href={`/followers/${user.clerkId}`}
+              // href={`/followers/${user.clerkId}`}
+              href="#"
               className="text-muted-foreground hover:text-foreground hover:underline"
             >
-              Following: 4781
+              Following: {following}
             </Link>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 sm:ml-auto">
-          {user.clerkId !== userId && (
-            <Button variant={"outline"} className="mt-2 rounded-full sm:mt-0">
-              Follow
-            </Button>
+          {user.clerkId !== clerkId && (
+            <FollowButton
+              userId={JSON.stringify(currentUserID._id)}
+              targetUserId={JSON.stringify(user._id)}
+              Following={isUserFollowing}
+            />
           )}
           <div>
             {interactedTags.length > 0 ? (

@@ -4,6 +4,7 @@ import { connectToDatabase } from "../mongoose"
 import Question from "@/database/question.model"
 import Interaction from "@/database/interaction.model"
 import { ViewQuestionParams } from "./shared.types"
+import Tag from "@/database/tag.model"
 
 export async function viewQuestion(params: ViewQuestionParams) {
 
@@ -24,11 +25,26 @@ export async function viewQuestion(params: ViewQuestionParams) {
             if (existingInteraction) {
                 console.log('User already viewed this question');
             } 
-            await Interaction.create({
-                ser: userId,
-                action: 'view',
-                question: questionId,
-            });
+            else {
+            const question = await Question.findById(questionId)
+	        .populate({ path: 'tags', model: Tag, select: '_id name' })
+
+                if (question) {
+                    const tagIds = question.tags.map((tag: { _id: any }) => tag._id);
+                    await Interaction.create({
+                        user: userId,
+                        action: 'view',
+                        question: questionId,
+                        tags: tagIds,
+                    });
+                } else {
+                    await Interaction.create({
+                        ser: userId,
+                        action: 'view',
+                        question: questionId,
+                });
+                }
+            }
             
         }
     } catch (error) {
