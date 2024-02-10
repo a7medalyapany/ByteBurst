@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   description:
     "Dive into ByteBurst for top-notch tech solutions. Get coding help, share knowledge, and level up your skills. Join the ByteBurst community now!",
   icons: {
-    icon: "/assets/images/logo.svg",
+    icon: "/assets/images/logo.png",
   },
 };
 
