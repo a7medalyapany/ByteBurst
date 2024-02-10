@@ -15,7 +15,8 @@ import "react-quill/dist/quill.snow.css";
 import { Button } from "../ui/button";
 import { CreateAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
-import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
+
 import { SparklesIcon } from "lucide-react";
 
 interface AnswerProps {
@@ -24,6 +25,7 @@ interface AnswerProps {
   authorId: string;
 }
 
+const DynamicQuill = dynamic(() => import("react-quill"), { ssr: false });
 const Answer: FC<AnswerProps> = ({ question, questionId, authorId }) => {
   const [value, setValue] = useState("");
   const [isSubmitting, setisSubmitting] = useState<boolean>(false);
@@ -99,7 +101,7 @@ const Answer: FC<AnswerProps> = ({ question, questionId, authorId }) => {
               <FormItem className="flex w-full flex-col gap-3">
                 <FormControl className="mt-3.5">
                   <div className="h-[250px] overflow-hidden bg-transparent">
-                    <ReactQuill
+                    <DynamicQuill
                       theme="snow"
                       value={value}
                       modules={{ toolbar: toolbarOptions }}

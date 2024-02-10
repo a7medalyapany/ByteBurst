@@ -8,7 +8,7 @@ export const QuestionSchema = z.object({
   explanation: z
     .string()
     .min(20, { message: "Description should be at least 20 characters" })
-    .max(1000),
+    .max(2400),
   tags: z
     .array(z.string().min(1).max(15))
     .min(1, { message: "You should enter at least one tag" })

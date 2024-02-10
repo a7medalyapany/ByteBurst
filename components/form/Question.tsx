@@ -5,7 +5,6 @@ import React, { FC, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +21,7 @@ import { QuestionSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
+import { XIcon } from "lucide-react";
 
 interface QuestionProps {
   type?: string;
@@ -156,7 +156,7 @@ const Question: FC<QuestionProps> = ({
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
-                  className="paragraph-regular min-h-[56px] border bg-accent"
+                  className="paragraph-regular min-h-[56px] border bg-transparent dark:border-foreground"
                   {...field}
                 />
               </FormControl>
@@ -177,7 +177,7 @@ const Question: FC<QuestionProps> = ({
                 <span className="text-red-500"> *</span>
               </FormLabel>
               <FormControl className="mt-3.5">
-                <div className="h-[250px] overflow-hidden bg-transparent">
+                <div className="h-[250px] overflow-hidden">
                   <DynamicQuill
                     theme="snow"
                     value={value || field.value}
@@ -210,7 +210,7 @@ const Question: FC<QuestionProps> = ({
               <FormControl className="mt-3.5">
                 <div
                   className={
-                    "flex min-h-[56px] grow items-center gap-4 rounded-lg bg-muted px-4"
+                    "flex min-h-[56px] grow items-center gap-4 rounded-lg border bg-transparent px-4 dark:border-foreground"
                   }
                 >
                   {field.value.length > 0 && (
@@ -223,18 +223,10 @@ const Question: FC<QuestionProps> = ({
                               ? handleTagRemove(tag, field)
                               : () => {}
                           }
-                          className="body-semibold flex h-8 w-fit items-center justify-center gap-2 truncate rounded-lg border-none bg-card capitalize text-foreground"
+                          className="body-semibold flex h-8 w-fit items-center justify-center gap-2 truncate rounded-lg border-none bg-card-foreground capitalize text-card"
                         >
                           {tag}
-                          {type !== "Edit" && (
-                            <Image
-                              src="/assets/icons/close.svg"
-                              alt="close"
-                              width={12}
-                              height={12}
-                              className="cursor-pointer object-contain invert-0 dark:invert"
-                            />
-                          )}
+                          {type !== "Edit" && <XIcon className="size-[12px]" />}
                         </Badge>
                       ))}
                     </div>
