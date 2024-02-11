@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { followUser, unfollowUser } from "@/lib/actions/follow.action";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
 
 interface FollowButtonProps extends FollowUserParams {
   Following: boolean;
@@ -18,13 +19,21 @@ const FollowButton: FC<FollowButtonProps> = ({
   className,
 }) => {
   const pathname = usePathname();
+  const { toast } = useToast();
   const [isFollowing, setIsFollowing] = useState<boolean>(Following);
 
-  const currentUser = JSON.parse(userId);
-  const targetUser = JSON.parse(targetUserId);
+  const currentUser = userId ? JSON.parse(userId) : null;
+  const targetUser = targetUserId ? JSON.parse(targetUserId) : null;
 
   const handleFollowToggle = async () => {
     try {
+      if (!currentUser || !targetUser) {
+        return toast({
+          title: "You need to be logged in",
+          description: "Please login to follow this user",
+        });
+      }
+
       if (isFollowing) {
         await unfollowUser({
           userId: currentUser,

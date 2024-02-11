@@ -23,7 +23,7 @@ const UserCard: FC<UserCardProps> = async ({ user }) => {
   const currentUserID = await getUserById({ userId: clerkId! });
   const interactedTags = await getTopUserTags({ userId: user._id });
   const isUserFollowing = await checkIsFollowing({
-    userId: currentUserID._id,
+    userId: currentUserID?._id,
     targetUserId: user._id,
   });
   const { followers, following } = await getFollowCount(user._id);
@@ -71,7 +71,7 @@ const UserCard: FC<UserCardProps> = async ({ user }) => {
         <div className="flex flex-col gap-2 sm:ml-auto sm:items-end sm:justify-end">
           {user.clerkId !== clerkId && (
             <FollowButton
-              userId={JSON.stringify(currentUserID._id)}
+              userId={JSON.stringify(currentUserID?._id)}
               targetUserId={JSON.stringify(user._id)}
               Following={isUserFollowing}
               className="mt-1 w-auto sm:w-auto"
