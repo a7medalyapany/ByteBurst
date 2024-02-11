@@ -16,7 +16,7 @@ import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
 import { auth } from "@clerk/nextjs";
 
-const page: FC<SearchParamsProps> = async ({
+const Page: FC<SearchParamsProps> = async ({
   searchParams,
 }: SearchParamsProps) => {
   const { userId } = auth();
@@ -120,4 +120,4 @@ const page: FC<SearchParamsProps> = async ({
   );
 };
 
-export default page;
+export default Page;

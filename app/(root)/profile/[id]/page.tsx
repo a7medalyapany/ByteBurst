@@ -15,7 +15,7 @@ import FollowButton from "@/components/shared/profile/FollowButton";
 import { checkIsFollowing, getFollowCount } from "@/lib/actions/follow.action";
 import FollowersCounter from "@/components/shared/profile/FollowersCounter";
 
-const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
+const Page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
   const { userId: clerkId } = auth();
   const currentUserID = await getUserById({ userId: clerkId! });
@@ -134,4 +134,4 @@ const page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   );
 };
 
-export default page;
+export default Page;

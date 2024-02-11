@@ -6,7 +6,7 @@ import { FC } from "react";
 
 interface pageProps {}
 
-const page: FC<pageProps> = async () => {
+const Page: FC<pageProps> = async () => {
   const { userId } = auth();
   if (!userId) redirect("/login");
   const mongoUser = await getUserById({ userId });
@@ -20,4 +20,4 @@ const page: FC<pageProps> = async () => {
   );
 };
 
-export default page;
+export default Page;

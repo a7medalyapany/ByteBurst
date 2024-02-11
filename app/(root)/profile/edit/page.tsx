@@ -4,7 +4,7 @@ import { getUserById } from "@/lib/actions/user.action";
 import { ParamsProps } from "@/types";
 import Profile from "@/components/form/Profile";
 
-const page: FC<ParamsProps> = async ({ params }: ParamsProps) => {
+const Page: FC<ParamsProps> = async ({ params }: ParamsProps) => {
   const { userId } = auth();
   if (!userId) {
     return null;
@@ -22,4 +22,4 @@ const page: FC<ParamsProps> = async ({ params }: ParamsProps) => {
   );
 };
 
-export default page;
+export default Page;
