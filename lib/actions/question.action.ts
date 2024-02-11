@@ -318,7 +318,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 export async function getFollowedUsersQuestions(params: RecommendedParams) {
 	try {
 		connectToDatabase();
-		const { userId, page = 1, pageSize = 2, searchQuery } = params;
+		const { userId, page = 1, pageSize = 20, searchQuery } = params;
 
 		const user = await User.findOne({ clerkId: userId });
 
