@@ -32,26 +32,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: [
-      "/app/opengraph-image.png",
-      {
-        url: "/app/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "ByteBurst - Your Coding Hub for Tech Answers",
-      },
-    ],
+    images: ["/assets/images/opengraph-image.png"],
   },
   openGraph: {
-    images: [
-      "/app/opengraph-image.png",
-      {
-        url: "/app/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "ByteBurst - Your Coding Hub for Tech Answers",
-      },
-    ],
+    images: ["/assets/images/opengraph-image.png"],
   },
 };
 
