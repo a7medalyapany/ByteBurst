@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache"
 import Answer from "@/database/answer.model"
 import Interaction from "@/database/interaction.model"
 import { FilterQuery } from "mongoose"
+import Follow from "@/database/follow.model"
 
 export async function createQuestion(params: CreateQuestionParams) {
 	try {
@@ -313,3 +314,52 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 		throw error
 	}
 }
+
+export async function getFollowedUsersQuestions(params: RecommendedParams) {
+	try {
+		connectToDatabase();
+		const { userId, page = 1, pageSize = 2, searchQuery } = params;
+
+		const user = await User.findOne({ clerkId: userId });
+
+		if (!user) {
+			throw new Error('User not found');
+		}
+
+		const skip = (page - 1) * pageSize;
+
+	  	const followings = await Follow.find({ follower: user }).select('following');
+
+	  	const followingUserIds = followings.map(following => following.following);
+
+	 	const query: FilterQuery<typeof Question> = {
+			$and: [
+				{ author: { $in: followingUserIds } }
+			]
+		};
+
+		if (searchQuery) {
+			query.$or = [
+				{ title: { $regex: searchQuery, $options: 'i' } },
+				{ content: { $regex: searchQuery, $options: 'i' } },
+			];
+		}
+
+		const totalQuestions = await Question.countDocuments(query);
+
+	 	const questions = await Question.find(query)
+	  		.populate({ path: 'tags', model: Tag })
+	  		.populate({ path: 'author', model: User })
+			.sort({ createdAt: -1 })
+	  		.skip(skip)
+	  		.limit(pageSize);
+
+		const isNext = totalQuestions > skip + questions.length;
+
+		return { questions, isNext };
+	} catch (error: any) {
+		throw new Error('Error retrieving questions of followed users: ' + error.message);
+	}
+}
+
+

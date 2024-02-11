@@ -47,6 +47,7 @@ userId: string | undefined;
 }
 
 export interface GetQuestionsParams {
+userId?: string | undefined;
 page?: number;
 pageSize?: number;
 searchQuery?: string;

@@ -8,6 +8,7 @@ import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/card/QuestionCard";
 import {
+  getFollowedUsersQuestions,
   getQuestions,
   getRecommendedQuestions,
 } from "@/lib/actions/question.action";
@@ -25,6 +26,19 @@ const page: FC<SearchParamsProps> = async ({
   if (searchParams?.filter === "recommended") {
     if (userId) {
       result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      result = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else if (searchParams?.filter === "following") {
+    if (userId) {
+      result = await getFollowedUsersQuestions({
         userId,
         searchQuery: searchParams.q,
         page: searchParams.page ? +searchParams.page : 1,
