@@ -1,8 +1,13 @@
+<img src="https://github.com/a7medalyapany/ByteBurst/assets/103336732/57d09f11-0a18-49b7-8142-f21cd5af9364" alt="logo" height="100" align="right">
+
 # ByteBurst
 Welcome to ByteBurst, your go-to destination for top-notch tech solutions! Whether you're seeking coding help, looking to share knowledge, or eager to level up your skills, you've come to the right place. Join the ByteBurst community now and take your tech journey to the next level!
 
 ## Description
 ByteBurst is a vibrant online community dedicated to empowering individuals in their tech pursuits. From beginners to seasoned professionals, everyone is welcome to participate, learn, and contribute. Our platform offers a range of features designed to facilitate collaboration, problem-solving, and skill development.
+
+## Lighthouse Report
+![Screenshot (323)](https://github.com/a7medalyapany/ByteBurst/assets/103336732/5160e763-2ed5-4d8b-9cdc-eb130bb585bf)
 
 ## Features
 - **Coding Help:** Stuck on a coding problem? Need advice on a technical concept? Our community of experts is here to assist you. Post your questions, and receive timely and insightful responses to help you overcome any challenges.
