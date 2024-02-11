@@ -17,7 +17,7 @@ const Navbar: FC<NavbarProps> = () => {
       <Link href="/" className="flex items-center gap-1">
         {theme === "light" ? (
           <Image
-            src="dark-logo.svg"
+            src="/dark-logo.svg"
             alt="ByteBurst Logo"
             width={150}
             height={150}
@@ -25,7 +25,7 @@ const Navbar: FC<NavbarProps> = () => {
           />
         ) : (
           <Image
-            src="light-logo.svg"
+            src="/light-logo.svg"
             alt="ByteBurst Logo"
             width={150}
             height={150}

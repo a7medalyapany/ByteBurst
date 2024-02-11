@@ -68,14 +68,14 @@ const MobileNav = () => {
         <Link href="/" className="flex items-center gap-1">
           {mode.theme === "dark" ? (
             <Image
-              src="light-logo.svg"
+              src="/light-logo.svg"
               alt="ByteBurst Logo"
               width={200}
               height={200}
             />
           ) : (
             <Image
-              src="dark-logo.svg"
+              src="/dark-logo.svg"
               alt="ByteBurst Logo"
               width={200}
               height={200}
