@@ -33,12 +33,6 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://byte-burst-lake.vercel.app/",
-    siteName: "ByteBurst",
-  },
 };
 
 export default function RootLayout({
