@@ -77,15 +77,13 @@ const Page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
         </div>
 
         <div className="flex flex-col items-end justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
-          <SignedIn>
-            {clerkId !== userInfo.user.clerkId && (
-              <FollowButton
-                userId={JSON.stringify(currentUserID?._id)}
-                targetUserId={JSON.stringify(userInfo.user._id)}
-                Following={isUserFollowing}
-              />
-            )}
-          </SignedIn>
+          {clerkId !== userInfo.user.clerkId && (
+            <FollowButton
+              userId={JSON.stringify(currentUserID?._id)}
+              targetUserId={JSON.stringify(userInfo.user._id)}
+              Following={isUserFollowing}
+            />
+          )}
         </div>
       </div>
 
