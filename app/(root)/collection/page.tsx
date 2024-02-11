@@ -9,6 +9,11 @@ import { auth } from "@clerk/nextjs";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
 
+export const metadata = {
+  title: "Saved Questions",
+  description: "View all your saved questions.",
+};
+
 const Page: FC<SearchParamsProps> = async ({
   searchParams,
 }: SearchParamsProps) => {

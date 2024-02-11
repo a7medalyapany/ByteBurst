@@ -21,11 +21,23 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "ByteBurst - Your Coding Hub for Tech Answers",
+  title: {
+    default: "ByteBurst - Your Coding Hub for Tech Answers",
+    template: "%s | ByteBurst",
+  },
   description:
     "Dive into ByteBurst for top-notch tech solutions. Get coding help, share knowledge, and level up your skills. Join the ByteBurst community now!",
   icons: {
     icon: "/assets/images/logo.png",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://byte-burst-lake.vercel.app/",
+    siteName: "ByteBurst",
   },
 };
 

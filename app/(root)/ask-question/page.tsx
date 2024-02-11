@@ -4,6 +4,11 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { FC } from "react";
 
+export const metadata = {
+  title: "Ask a Question",
+  description: "Ask a question and get answers from the ByteBurst community.",
+};
+
 interface pageProps {}
 
 const Page: FC<pageProps> = async () => {

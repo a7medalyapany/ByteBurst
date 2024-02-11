@@ -8,6 +8,11 @@ import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import { FC } from "react";
 
+export const metadata = {
+  title: "Community",
+  description: "Find and connect with experts in the ByteBurst community.",
+};
+
 const Page: FC<SearchParamsProps> = async ({
   searchParams,
 }: SearchParamsProps) => {
