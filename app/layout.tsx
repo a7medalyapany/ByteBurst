@@ -21,6 +21,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://byte-burst-lake.vercel.app/"),
   title: {
     default: "ByteBurst - Your Coding Hub for Tech Answers",
     template: "%s | ByteBurst",
