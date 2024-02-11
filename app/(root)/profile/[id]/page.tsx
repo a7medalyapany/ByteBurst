@@ -20,7 +20,7 @@ const Page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   const currentUserID = await getUserById({ userId: clerkId! });
   const isUserFollowing = await checkIsFollowing({
-    userId: currentUserID._id,
+    userId: currentUserID?._id,
     targetUserId: userInfo.user._id,
   });
 
@@ -80,7 +80,7 @@ const Page: FC<URLProps> = async ({ params, searchParams }: URLProps) => {
           <SignedIn>
             {clerkId !== userInfo.user.clerkId && (
               <FollowButton
-                userId={JSON.stringify(currentUserID._id)}
+                userId={JSON.stringify(currentUserID?._id)}
                 targetUserId={JSON.stringify(userInfo.user._id)}
                 Following={isUserFollowing}
               />

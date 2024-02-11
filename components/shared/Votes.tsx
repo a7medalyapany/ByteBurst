@@ -38,6 +38,12 @@ const Votes: FC<VotesProps> = ({
   const { toast } = useToast();
 
   const handleSave = async () => {
+    if (!userId) {
+      return toast({
+        title: "You need to be logged in",
+        description: "Please login to save this question",
+      });
+    }
     await saveQuestion({
       userId: JSON.parse(userId),
       questionId: JSON.parse(itemId),

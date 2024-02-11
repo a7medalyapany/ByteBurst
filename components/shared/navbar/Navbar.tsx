@@ -11,11 +11,11 @@ import { useTheme } from "next-themes";
 interface NavbarProps {}
 
 const Navbar: FC<NavbarProps> = () => {
-  const mode = useTheme();
+  const { theme } = useTheme();
   return (
     <nav className="flex-between fixed z-50 w-full gap-5 border-b bg-background/95 p-6 shadow-md backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-12">
       <Link href="/" className="flex items-center gap-1">
-        {mode.theme === "light" ? (
+        {theme === "light" ? (
           <Image
             src="dark-logo.svg"
             alt="ByteBurst Logo"

@@ -50,7 +50,7 @@ export async function unfollowUser(params: FollowUserParams){
     }
 }
 
-export async function checkIsFollowing(params: FollowUserParams): Promise<boolean> {
+export async function checkIsFollowing(params: FollowUserParams) {
     try {
         connectToDatabase();
 
